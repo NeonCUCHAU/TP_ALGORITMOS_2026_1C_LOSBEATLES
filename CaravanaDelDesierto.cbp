@@ -31,6 +31,36 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Juego.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Juego.h" />
+		<Unit filename="TDA/Comun/Comun.h" />
+		<Unit filename="TDA/TDA_Cola/Cola.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA/TDA_Cola/Cola.h" />
+		<Unit filename="TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h" />
+		<Unit filename="TDA/TDA_Lista/Lista.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA/TDA_Lista/Lista.h" />
+		<Unit filename="TDA/TDA_Pila/Pila.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA/TDA_Pila/Pila.h" />
+		<Unit filename="Tablero.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Tablero.h" />
+		<Unit filename="Tipos.h" />
+		<Unit filename="config.txt" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

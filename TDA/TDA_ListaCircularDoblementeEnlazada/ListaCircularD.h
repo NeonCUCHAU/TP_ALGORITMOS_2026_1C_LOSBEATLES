@@ -5,10 +5,11 @@
 
 typedef tNodoD *tListaCircularD;
 
-void crearLista(tListaCircularD *p);
-int listaVacia(const tListaCircularD *p);
-int vaciarLista(tListaCircularD *p);
-int insertarEnLista(tListaCircularD *p, const void *d, unsigned cantBytes);
+void crearListaCircularD(tListaCircularD *p);
+int listaCircularDVacia(const tListaCircularD *p);
+int vaciarListaCircularD(tListaCircularD *p);
+int insertarEnListaCircularDAlFinal(tListaCircularD *p, const void *d, unsigned cantBytes);
+int alterarNodoEnListaCircularD(tListaCircularD* p, unsigned pos, tAccion accion, void* param);
 
 
 #endif

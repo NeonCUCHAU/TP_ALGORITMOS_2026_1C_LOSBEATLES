@@ -12,7 +12,7 @@
 #define NO_ENCONTRADO 4
 #define HAY_ESPACIO 1
 
-#define minimo(X, Y) ((X) <- (Y) ? (X) : (Y))
+#define minimo(X, Y) ((X) <= (Y) ? (X) : (Y))
 
 typedef struct sNodo
 {
@@ -30,7 +30,7 @@ typedef struct sNodoD
 } tNodoD;
 
 typedef int (*tCmp)(const void* a, const void* b);
-typedef void (*tAccion)(void* a);
+typedef int (*tAccion)(void* a, void* param);
 typedef void (*tMostrar)(const void* a);
 
 #endif

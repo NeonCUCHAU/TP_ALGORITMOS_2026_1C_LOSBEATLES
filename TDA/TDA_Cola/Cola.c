@@ -73,8 +73,3 @@ void vaciarCola(tCola *p)
     }
     p->ult = NULL;
 }
-
-int main()
-{
-    return 0;
-}

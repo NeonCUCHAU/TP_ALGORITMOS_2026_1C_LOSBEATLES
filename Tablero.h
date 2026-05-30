@@ -3,11 +3,12 @@
 
 #include "Tipos.h"
 
-#define TODO_OK 1
-#define ERR_ARCH 2
+
+void cambiarTipo(void *info, void *param);
 
 int LeerConfig(const char* archivo, Config *cfg);
-
+int crearTableroVacio(tListaCircularD* tablero, int cantPos);
+int generarInicioYFin(tListaCircularD* tablero, int cantPos);
 
 
 

@@ -4,7 +4,7 @@
 #include "Tipos.h"
 
 int lanzarDado();
-int VerificarColisionBandido(Jugador* jugador, Bandido ** lista_bandidos);
+void CrearBandidos(tListaCircularD ruta, tNodo** listaBandidos);
 
 
 #endif // JUEGO_H_INCLUDED

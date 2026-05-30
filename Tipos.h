@@ -1,7 +1,5 @@
 /*
 
-
-
 main
 │
 ├─ leerConfiguracion()
@@ -26,11 +24,6 @@ main
 │
 └─ guardarTableroInicial()
 
-
-
-
-
-
 */
 #ifndef TIPOS_H_INCLUDED
 #define TIPOS_H_INCLUDED
@@ -50,6 +43,10 @@ main
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "TDA/TDA_Lista/Lista.h"
+#include "TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
+#include "TDA/TDA_Cola/Cola.h"
+
 
 typedef struct
 {
@@ -74,14 +71,14 @@ typedef struct
     int puntos;
     int protegido; // 0 = no, 1 = sí
     int pierdeTurno; // 0 = no, 1 = sí
-    tNodo *posActual;
+    tNodoD *posActual;
 }Jugador;
 
 typedef struct
 {
     int id;
     int estado; // si esta eliminado el bandido o no
-    tNodo *posActual;
+    tNodoD *posActual;
 }Bandido;
 
 typedef struct {

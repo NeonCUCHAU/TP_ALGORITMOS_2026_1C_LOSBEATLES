@@ -70,8 +70,3 @@ int verTope(const tPila* p, void* d, unsigned cantBytes)
     memcpy(d, (*p)->info, minimo(cantBytes, (*p)->tamInfo));
     return 1;
 }
-
-int main()
-{
-    return 0;
-}

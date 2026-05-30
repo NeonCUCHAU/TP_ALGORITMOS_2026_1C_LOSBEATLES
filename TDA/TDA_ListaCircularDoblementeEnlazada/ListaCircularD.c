@@ -1,16 +1,16 @@
 #include "ListaCircularD.h"
 
-void crearLista(tListaCircularD *p)
+void crearListaCircularD(tListaCircularD *p)
 {
     *p = NULL;
 }
 
-int listaVacia(const tListaCircularD *p)
+int listaCircularDVacia(const tListaCircularD *p)
 {
     return *p == NULL;
 }
 
-int vaciarLista(tListaCircularD *p)
+int vaciarListaCircularD(tListaCircularD *p)
 {
     tNodoD *act, *sig, *prim;
 
@@ -38,7 +38,7 @@ int vaciarLista(tListaCircularD *p)
     return TODO_OK;
 }
 
-int insertarEnLista(tListaCircularD *p, const void *d, unsigned cantBytes)
+int insertarEnListaCircularDAlFinal(tListaCircularD *p, const void *d, unsigned cantBytes)
 {
     tNodoD *nuevo;
     void *info;
@@ -82,7 +82,23 @@ int insertarEnLista(tListaCircularD *p, const void *d, unsigned cantBytes)
     return TODO_OK;
 }
 
-int main()
+int alterarNodoEnListaCircularD(tListaCircularD* p, unsigned pos, tAccion accion, void* param)
 {
-    return 0;
+    tNodoD *act;
+    unsigned i;
+
+    if(!p || !*p || !accion)
+        return ERROR;
+
+    act = *p;
+
+    for(i = 0; i < pos; i++)
+    {
+        act = act->sig;
+
+        if(act == *p)
+            return NO_ENCONTRADO;
+    }
+
+    return accion(act->info, param);
 }
