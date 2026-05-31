@@ -7,6 +7,14 @@ void cambiarTipo(void *info, void *param)
     c->tipo = *(char*)param;
 }
 
+int generarAleatorioRango(int inicio, int fin)
+{
+    if(inicio > fin)
+        return ERROR;
+
+    return rand() % (fin - inicio + 1) + inicio;
+}
+
 int LeerConfig(const char* archivo, Config *cfg)
 {
     char clave[64];
@@ -37,31 +45,77 @@ int LeerConfig(const char* archivo, Config *cfg)
     return TODO_OK;
 }
 
-int crearTableroVacio(tListaCircularD* tablero, int cantPos)
+int posicionValida(const char* tablero, int cantPos, int pos, char elemento, int factorProximidad, int considerarProximidad)
 {
-    unsigned i;
-    Casilla c = {'.', 1};
+    if(pos <= 0 || pos >= cantPos - 1 || tablero[pos] != CELDA_VACIA)
+        return POSICION_INVALIDA;
+    
+    if(considerarProximidad == CONSIDERAR_PROXIMIDAD)
+    {
+        for(unsigned i = 1; i <= factorProximidad; i++)
+        {
+        if(pos >= i && tablero[pos - i] == elemento)
+            return POSICION_INVALIDA;
 
-    crearListaCircularD(tablero);
-
-    for(i=0; i < cantPos; i++)
-    { 
-        if(insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla)) != TODO_OK)
-            return ERR_MEMORIA;
+        if(pos + i < cantPos && tablero[pos + i] == elemento)
+             return POSICION_INVALIDA;
+         }
     }
 
-    return TODO_OK;
+    return POSICION_VALIDA;
 }
 
-int generarInicioYFin(tListaCircularD* tablero, int cantPos)
+void generarElementosDistribuidos(char* tablero, int cantPos, int cantElementos, char elemento, int considerarProximidad)
 {
-    char c = 'I';
+    int rangoRand = cantPos / cantElementos, sectorRandIni = 0, sectorRandFin, posRand, factorProximidad = 0;
 
-    alterarNodo(tablero, 0, cambiarTipo, &c);
+    if(considerarProximidad == CONSIDERAR_PROXIMIDAD)
+        factorProximidad = rangoRand / 2;
 
-    c = 'S';
+    for(unsigned i = 0; i < cantElementos; i++)
+    {
+        sectorRandFin = sectorRandIni + rangoRand - 1;
 
-    alterarNodo(tablero, cantPos - 1, cambiarTipo, &c);
+        do posRand = generarAleatorioRango(sectorRandIni, sectorRandFin);
+        while(posicionValida(tablero, cantPos, posRand, elemento, factorProximidad, considerarProximidad) == POSICION_INVALIDA);
 
-    return TODO_OK;
+        tablero[posRand] = elemento;
+        sectorRandIni += rangoRand;
+    }
+}
+
+void generarBandidos(char* tablero, int cantPos, int cantBandidos)
+{
+    int rangoIni = cantPos / 4, rangoFin = cantPos - cantPos / 4 - 1, posRand;
+
+    for(unsigned i = 0; i < cantBandidos; i++)
+    {
+        do posRand = generarAleatorioRango(rangoIni, rangoFin);
+        while(tablero[posRand] != CELDA_VACIA);
+
+        tablero[posRand] = CELDA_BANDIDO;
+    }
+}
+
+int cargarTableroATxt(const Config* config, const char* nombreArchivo)
+{
+    char* tablero = malloc(config.cantidadPosiciones);
+    int rangoRand, sectorRandIni, sectorRandFin, posRand, factorProximidad;
+
+    if(!tablero)
+        return ERR_MEMORIA;
+
+    tablero[0] = CELDA_INICIO;
+    tablero[config.cantidadPosiciones - 1] = CELDA_SALIDA;
+
+    for(unsigned i = 1; i < config.cantidadPosiciones - 1; i++)
+        tablero[i] = CELDA_VACIA;
+    
+    generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxOasis, CELDA_OASIS, CONSIDERAR_PROXIMIDAD);
+    generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxTormentas, CELDA_TORMENTA, CONSIDERAR_PROXIMIDAD);
+    generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxPremios, CELDA_PREMIO, NO_CONSIDERAR_PROXIMIDAD);
+    generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxVidasExtra, CELDA_VIDA, NO_CONSIDERAR_PROXIMIDAD);
+    generarBandidos(tablero, config.cantidadPosiciones, config.maxBandidos);
+
+    free(tablero);
 }
