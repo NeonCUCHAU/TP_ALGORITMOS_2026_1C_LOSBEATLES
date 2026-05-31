@@ -1,0 +1,54 @@
+# depslib dependency file v1.0
+1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\juego.c
+	"Juego.h"
+
+1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\juego.h
+	"Tipos.h"
+
+1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tipos.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"TDA/TDA_Lista/Lista.h"
+	"TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
+	"TDA/TDA_Cola/Cola.h"
+
+1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_lista\lista.h
+	"../Comun/Comun.h"
+
+1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\comun\comun.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.h
+	"../Comun/Comun.h"
+
+1780158112 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.h
+	"../Comun/Comun.h"
+
+1780245458 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\main.c
+	"Tipos.h"
+	"Tablero.h"
+
+1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.c
+	"Cola.h"
+
+1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_lista\lista.c
+	"Lista.h"
+
+1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.c
+	"ListaCircularD.h"
+
+1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.c
+	"Pila.h"
+
+1780158112 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.h
+	"../Comun/Comun.h"
+
+1780245534 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.c
+	"Tablero.h"
+
+1780245143 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.h
+	"Tipos.h"
+

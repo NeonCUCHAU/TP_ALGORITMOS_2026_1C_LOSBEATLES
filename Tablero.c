@@ -49,7 +49,7 @@ int posicionValida(const char* tablero, int cantPos, int pos, char elemento, int
 {
     if(pos <= 0 || pos >= cantPos - 1 || tablero[pos] != CELDA_VACIA)
         return POSICION_INVALIDA;
-    
+
     if(considerarProximidad == CONSIDERAR_PROXIMIDAD)
     {
         for(unsigned i = 1; i <= factorProximidad; i++)
@@ -97,10 +97,30 @@ void generarBandidos(char* tablero, int cantPos, int cantBandidos)
     }
 }
 
-int cargarTableroATxt(const Config* config, const char* nombreArchivo)
+int guardarTableroATxt(const char* nombreArchivo, const char* tablero, int cantPos)
+{
+    FILE* pf;
+
+    pf = fopen(nombreArchivo, "wt");
+
+    if(!pf)
+        return ERROR_ARCH;
+
+    /* Inicio + jugador */
+    fprintf(pf, "%02d:[I J]\n", 1);
+
+    /* Resto del tablero */
+    for(unsigned i = 1; i < cantPos; i++)
+        fprintf(pf, "%02d:%c\n", i + 1, tablero[i]);
+
+    fclose(pf);
+
+    return TODO_OK;
+}
+
+int cargarTableroATxt(const Config config, const char* nombreArchivo)
 {
     char* tablero = malloc(config.cantidadPosiciones);
-    int rangoRand, sectorRandIni, sectorRandFin, posRand, factorProximidad;
 
     if(!tablero)
         return ERR_MEMORIA;
@@ -110,12 +130,17 @@ int cargarTableroATxt(const Config* config, const char* nombreArchivo)
 
     for(unsigned i = 1; i < config.cantidadPosiciones - 1; i++)
         tablero[i] = CELDA_VACIA;
-    
+
     generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxOasis, CELDA_OASIS, CONSIDERAR_PROXIMIDAD);
     generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxTormentas, CELDA_TORMENTA, CONSIDERAR_PROXIMIDAD);
     generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxPremios, CELDA_PREMIO, NO_CONSIDERAR_PROXIMIDAD);
     generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxVidasExtra, CELDA_VIDA, NO_CONSIDERAR_PROXIMIDAD);
     generarBandidos(tablero, config.cantidadPosiciones, config.maxBandidos);
 
+    if(guardarTableroATxt(nombreArchivo, tablero, config.cantidadPosiciones) != TODO_OK)
+        return ERROR_ARCH;
+
     free(tablero);
+
+    return TODO_OK;
 }
