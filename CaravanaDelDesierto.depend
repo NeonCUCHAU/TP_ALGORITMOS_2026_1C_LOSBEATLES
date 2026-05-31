@@ -27,7 +27,7 @@
 1780158112 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.h
 	"../Comun/Comun.h"
 
-1780245458 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\main.c
+1780250940 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\main.c
 	"Tipos.h"
 	"Tablero.h"
 
@@ -37,7 +37,7 @@
 1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_lista\lista.c
 	"Lista.h"
 
-1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.c
+1780251303 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.c
 	"ListaCircularD.h"
 
 1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.c
@@ -46,9 +46,9 @@
 1780158112 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.h
 	"../Comun/Comun.h"
 
-1780245534 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.c
+1780251203 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.c
 	"Tablero.h"
 
-1780245143 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.h
+1780250794 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.h
 	"Tipos.h"
 

@@ -50,7 +50,7 @@ int insertarEnListaCircularDAlFinal(tListaCircularD *p, const void *d, unsigned 
 
     memcpy(info, d, cantBytes);
 
-    nuevo = malloc(sizeof(tNodo));
+    nuevo = malloc(sizeof(tNodoD));
 
     if(!nuevo)
     {

@@ -144,3 +144,42 @@ int cargarTableroATxt(const Config config, const char* nombreArchivo)
 
     return TODO_OK;
 }
+
+int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
+{
+    FILE* pf = fopen(nombreArchivo, "rt");
+    char linea[16];
+    Casilla c;
+
+    if(!pf)
+        return ERROR_ARCH;
+
+    crearListaCircularD(tablero);
+
+    c.activo = 1;
+
+    fgets(linea, sizeof(linea), pf);
+
+    c.tipo = CELDA_INICIO;
+
+    if(insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla)) != TODO_OK)
+    {
+        fclose(pf);
+        return ERR_MEMORIA;
+    }
+
+    while(fgets(linea, sizeof(linea), pf))
+    {
+        c.tipo = linea[3];
+
+        if(insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla)) != TODO_OK)
+        {
+            fclose(pf);
+            return ERR_MEMORIA;
+        }
+    }
+
+    fclose(pf);
+
+    return TODO_OK;
+}

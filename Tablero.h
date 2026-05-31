@@ -18,6 +18,7 @@ void generarElementosDistribuidos(char* tablero, int cantPos, int cantElementos,
 void generarBandidos(char* tablero, int cantPos, int cantBandidos);
 int guardarTableroATxt(const char* nombreArchivo, const char* tablero, int cantPos);
 int cargarTableroATxt(const Config config, const char* nombreArchivo);
+int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo);
 
 
 #endif // TABLERO_H_INCLUDED
