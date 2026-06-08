@@ -1,11 +1,5 @@
 #include "Tablero.h"
 
-void cambiarTipo(void *info, void *param)
-{
-    Casilla *c = info;
-
-    c->tipo = *(char*)param;
-}
 
 int generarAleatorioRango(int inicio, int fin)
 {
@@ -19,11 +13,11 @@ int LeerConfig(const char* archivo, Config *cfg)
 {
     char clave[64];
     int valor;
-    FILE* pf = fopen(archivo,"rt");
+    FILE* pf = fopen(archivo, "rt");
     if(!pf)
         return ERROR_ARCH;
 
-    while(fscanf(pf,"%63[^:]: %d\n",clave,&valor)== 2)
+    while(fscanf(pf,"%63[^:]: %d\n", clave, &valor) == 2)
     {
         if(strcmp(clave, "cantidad_posiciones") == 0)
             cfg->cantidadPosiciones = valor;
@@ -45,103 +39,195 @@ int LeerConfig(const char* archivo, Config *cfg)
     return TODO_OK;
 }
 
-int posicionValida(const char* tablero, int cantPos, int pos, char elemento, int factorProximidad, int considerarProximidad)
+/* Valida posicion para terreno */
+int posicionValida(const char* tablero, unsigned cantPos, unsigned pos, char elemento, unsigned factorProximidad, int considerarProximidad)
 {
-    if(pos <= 0 || pos >= cantPos - 1 || tablero[pos] != CELDA_VACIA)
+    unsigned i;
+
+    if(pos == 0 || pos >= cantPos - 1 || tablero[pos] != CELDA_VACIA)
         return POSICION_INVALIDA;
 
     if(considerarProximidad == CONSIDERAR_PROXIMIDAD)
     {
-        for(unsigned i = 1; i <= factorProximidad; i++)
+        for(i = 1; i <= factorProximidad; i++)
         {
-        if(pos >= i && tablero[pos - i] == elemento)
-            return POSICION_INVALIDA;
+            if(pos >= i && tablero[pos - i] == elemento)
+                return POSICION_INVALIDA;
 
-        if(pos + i < cantPos && tablero[pos + i] == elemento)
-             return POSICION_INVALIDA;
-         }
+            if(pos + i < cantPos && tablero[pos + i] == elemento)
+                return POSICION_INVALIDA;
+        }
     }
 
     return POSICION_VALIDA;
 }
-
-void generarElementosDistribuidos(char* tablero, int cantPos, int cantElementos, char elemento, int considerarProximidad)
+/* Valida posicion para items: acepta cualquier terreno excepto inicio/salida */
+int posicionValidaItem(const char* items, const char* terreno, unsigned cantPos, unsigned pos)
 {
-    int rangoRand = cantPos / cantElementos, sectorRandIni = 0, sectorRandFin, posRand, factorProximidad = 0;
+    if(pos == 0 || pos >= cantPos - 1)
+        return POSICION_INVALIDA;
+
+    if(terreno[pos] == CELDA_INICIO || terreno[pos] == CELDA_SALIDA)
+        return POSICION_INVALIDA;
+
+    if(items[pos] != CELDA_VACIA)
+        return POSICION_INVALIDA;
+
+    return POSICION_VALIDA;
+}
+
+
+void generarElementosDistribuidos(char* tablero, unsigned cantPos, unsigned cantElementos, char elemento, int considerarProximidad)
+{
+    int esValida, intentos, sectorRandFin, posRand, factorProximidad = 0;
+    unsigned rangoRand, sectorRandIni = 0, i;
+
+    rangoRand = cantPos / cantElementos;
 
     if(considerarProximidad == CONSIDERAR_PROXIMIDAD)
         factorProximidad = rangoRand / 2;
 
-    for(unsigned i = 0; i < cantElementos; i++)
+    for(i = 0; i < cantElementos; i++)
     {
         sectorRandFin = sectorRandIni + rangoRand - 1;
+        intentos = 0;
 
-        do posRand = generarAleatorioRango(sectorRandIni, sectorRandFin);
-        while(posicionValida(tablero, cantPos, posRand, elemento, factorProximidad, considerarProximidad) == POSICION_INVALIDA);
+        do
+        {
+            posRand = generarAleatorioRango(sectorRandIni, sectorRandFin);
+            intentos++;
+            esValida = posicionValida(tablero, cantPos, posRand, elemento, factorProximidad, considerarProximidad);
+        }
+        while(esValida == POSICION_INVALIDA && intentos < 100);
 
-        tablero[posRand] = elemento;
+        if(esValida == POSICION_VALIDA)
+            tablero[posRand] = elemento;
+
         sectorRandIni += rangoRand;
     }
 }
 
-void generarBandidos(char* tablero, int cantPos, int cantBandidos)
+void generarItemsDistribuidos(char* items, const char* terreno, unsigned cantPos, unsigned cantElementos, char elemento)
 {
-    int rangoIni = cantPos / 4, rangoFin = cantPos - cantPos / 4 - 1, posRand;
+    int esValida, intentos, sectorRandFin, posRand;
+    unsigned rangoRand, sectorRandIni, i;
 
-    for(unsigned i = 0; i < cantBandidos; i++)
+    rangoRand     = cantPos / cantElementos;
+    sectorRandIni = 0;
+
+    for(i = 0; i < cantElementos; i++)
     {
-        do posRand = generarAleatorioRango(rangoIni, rangoFin);
-        while(tablero[posRand] != CELDA_VACIA);
+        sectorRandFin = sectorRandIni + rangoRand - 1;
+        intentos = 0;
 
-        tablero[posRand] = CELDA_BANDIDO;
+        do
+        {
+            posRand = generarAleatorioRango(sectorRandIni, sectorRandFin);
+            intentos++;
+            esValida = posicionValidaItem(items, terreno, cantPos, posRand);
+        }
+        while(esValida == POSICION_INVALIDA && intentos < 100);
+
+        if(esValida == POSICION_VALIDA)
+            items[posRand] = elemento;
+
+        sectorRandIni += rangoRand;
     }
 }
 
-int guardarTableroATxt(const char* nombreArchivo, const char* tablero, int cantPos)
+void generarBandidos(char* tablero, unsigned cantPos, unsigned cantBandidos)
 {
-    FILE* pf;
+    unsigned i, posRand, intentos;
+    unsigned rangoIni = cantPos / 4;
+    unsigned rangoFin = cantPos - cantPos / 4 - 1;
 
-    pf = fopen(nombreArchivo, "wt");
+    for(i = 0; i < cantBandidos; i++)
+    {
+        intentos = 0;
+        do
+        {
+            posRand = generarAleatorioRango(rangoIni, rangoFin);
+            intentos++;
+        }
+        while(tablero[posRand] != CELDA_VACIA && intentos < 100);
+
+        if(tablero[posRand] == CELDA_VACIA)
+            tablero[posRand] = CELDA_BANDIDO;
+    }
+}
+
+
+int guardarTableroATxt(const char* nombreArchivo, const char* terreno, const char* items, unsigned cantPos)
+{
+    unsigned i;
+    FILE* pf = fopen(nombreArchivo, "wt");
 
     if(!pf)
         return ERROR_ARCH;
 
-    /* Inicio + jugador */
     fprintf(pf, "%02d:[I J]\n", 1);
 
-    /* Resto del tablero */
-    for(unsigned i = 1; i < cantPos; i++)
-        fprintf(pf, "%02d:%c\n", i + 1, tablero[i]);
+    for(i = 1; i < cantPos; i++)
+    {
+        if(terreno[i] != CELDA_VACIA && items[i] != CELDA_VACIA)
+            fprintf(pf, "%02d:[%c %c]\n", i + 1, terreno[i], items[i]);
+        else if(terreno[i] != CELDA_VACIA)
+            fprintf(pf, "%02d:[%c]\n", i + 1, terreno[i]);
+        else if(items[i] != CELDA_VACIA)
+            fprintf(pf, "%02d:[%c]\n", i + 1, items[i]);
+        else
+            fprintf(pf, "%02d:[.]\n", i + 1);
+    }
 
     fclose(pf);
-
     return TODO_OK;
 }
 
 int cargarTableroATxt(const Config config, const char* nombreArchivo)
 {
-    char* tablero = malloc(config.cantidadPosiciones);
+    unsigned i;
+    char* terreno;
+    char* items;
 
-    if(!tablero)
+    terreno = malloc(config.cantidadPosiciones);
+    items = malloc(config.cantidadPosiciones);
+
+    if(!terreno || !items)
+    {
+        free(terreno);
+        free(items);
         return ERR_MEMORIA;
+    }
 
-    tablero[0] = CELDA_INICIO;
-    tablero[config.cantidadPosiciones - 1] = CELDA_SALIDA;
+    /* inicializar terreno */
+    terreno[0] = CELDA_INICIO;
+    terreno[config.cantidadPosiciones - 1] = CELDA_SALIDA;
+    for(i = 1; i < config.cantidadPosiciones - 1; i++)
+        terreno[i] = CELDA_VACIA;
 
-    for(unsigned i = 1; i < config.cantidadPosiciones - 1; i++)
-        tablero[i] = CELDA_VACIA;
+    /* inicializar items */
+    for(i = 0; i < config.cantidadPosiciones; i++)
+        items[i] = CELDA_VACIA;
 
-    generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxOasis, CELDA_OASIS, CONSIDERAR_PROXIMIDAD);
-    generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxTormentas, CELDA_TORMENTA, CONSIDERAR_PROXIMIDAD);
-    generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxPremios, CELDA_PREMIO, NO_CONSIDERAR_PROXIMIDAD);
-    generarElementosDistribuidos(tablero, config.cantidadPosiciones, config.maxVidasExtra, CELDA_VIDA, NO_CONSIDERAR_PROXIMIDAD);
-    generarBandidos(tablero, config.cantidadPosiciones, config.maxBandidos);
+    /* generar terreno */
+    generarElementosDistribuidos(terreno, config.cantidadPosiciones, config.maxOasis, CELDA_OASIS, CONSIDERAR_PROXIMIDAD);
+    generarElementosDistribuidos(terreno, config.cantidadPosiciones, config.maxTormentas, CELDA_TORMENTA, CONSIDERAR_PROXIMIDAD);
+    /* generar items (pueden superponerse con terreno) */
+    generarItemsDistribuidos(items, terreno, config.cantidadPosiciones, config.maxPremios, CELDA_PREMIO);
+    generarItemsDistribuidos(items, terreno, config.cantidadPosiciones, config.maxVidasExtra, CELDA_VIDA);
+    /* generar bandidos */
+    generarBandidos(terreno, config.cantidadPosiciones, config.maxBandidos);
 
-    if(guardarTableroATxt(nombreArchivo, tablero, config.cantidadPosiciones) != TODO_OK)
+
+    if(guardarTableroATxt(nombreArchivo, terreno, items, config.cantidadPosiciones) != TODO_OK)
+    {
+        free(terreno);
+        free(items);
         return ERROR_ARCH;
+    }
 
-    free(tablero);
-
+    free(terreno);
+    free(items);
     return TODO_OK;
 }
 
@@ -149,6 +235,8 @@ int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
 {
     FILE* pf = fopen(nombreArchivo, "rt");
     char linea[16];
+    char* sep;
+    char ch;
     Casilla c;
 
     if(!pf)
@@ -156,21 +244,13 @@ int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
 
     crearListaCircularD(tablero);
 
-    c.activo = 1;
-
-    fgets(linea, sizeof(linea), pf);
-
-    c.tipo = CELDA_INICIO;
-
-    if(insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla)) != TODO_OK)
+    /* inicio con jugador*/
+    if(fgets(linea, sizeof(linea), pf))
     {
-        fclose(pf);
-        return ERR_MEMORIA;
-    }
-
-    while(fgets(linea, sizeof(linea), pf))
-    {
-        c.tipo = linea[3];
+        c.terreno  = CELDA_INICIO;
+        c.item     = CELDA_VACIA;
+        c.bandidos = 0;
+        c.jugador  = 1;
 
         if(insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla)) != TODO_OK)
         {
@@ -179,7 +259,39 @@ int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
         }
     }
 
-    fclose(pf);
+    while(fgets(linea, sizeof(linea), pf))
+    {
+        c.terreno  = CELDA_VACIA;
+        c.item     = CELDA_VACIA;
+        c.bandidos = 0;
+        c.jugador  = 0;
 
+        sep = strchr(linea, '[');
+
+        if(sep != NULL)
+        {
+            ch = *(sep + 1);
+
+            /* procesar el primer caracter(T o B)*/
+            if(ch == CELDA_BANDIDO)
+                c.bandidos = 1;
+            else if(ch == CELDA_VACIA)
+                c.terreno = CELDA_VACIA;
+            else
+                c.terreno = ch;
+
+            /* procesar el segundo carácter si existe*/
+            if(*(sep + 2) == ' ' && *(sep + 3) != ']')
+                c.item = *(sep + 3);
+        }
+        if(insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla)) != TODO_OK)
+        {
+            fclose(pf);
+            return ERR_MEMORIA;
+        }
+    }
+    fclose(pf);
     return TODO_OK;
 }
+
+

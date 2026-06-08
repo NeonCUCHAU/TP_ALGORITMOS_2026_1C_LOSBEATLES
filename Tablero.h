@@ -9,16 +9,24 @@
 #define POSICION_VALIDA 0
 
 
-void cambiarTipo(void *info, void *param);
 int generarAleatorioRango(int inicio, int fin);
-
 int LeerConfig(const char* archivo, Config *cfg);
-int posicionValida(const char* tablero, int cantPos, int pos, char elemento, int factorProximidad, int considerarProximidad);
-void generarElementosDistribuidos(char* tablero, int cantPos, int cantElementos, char elemento, int considerarProximidad);
-void generarBandidos(char* tablero, int cantPos, int cantBandidos);
-int guardarTableroATxt(const char* nombreArchivo, const char* tablero, int cantPos);
+
+/* =========================================================
+   Generacion del tablero (arrays temporales de chars)
+
+   Se usan DOS arrays separados:
+     terreno[] -> INICIO, SALIDA, OASIS, TORMENTA, VACIA
+     items[]   -> PREMIO, VIDA, VACIA
+========================================================= */
+int posicionValida(const char* tablero, unsigned cantPos, unsigned pos, char elemento, unsigned factorProximidad, int considerarProximidad);
+int posicionValidaItem(const char* items, const char* terreno, unsigned cantPos, unsigned pos);
+void generarElementosDistribuidos(char* tablero, unsigned cantPos, unsigned cantElementos, char elemento, int considerarProximidad);
+void generarBandidos(char* tablero, unsigned cantPos, unsigned cantBandidos);
+
+int guardarTableroATxt(const char* nombreArchivo, const char* terreno, const char* items, unsigned cantPos);
 int cargarTableroATxt(const Config config, const char* nombreArchivo);
 int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo);
 
 
-#endif // TABLERO_H_INCLUDED
+#endif

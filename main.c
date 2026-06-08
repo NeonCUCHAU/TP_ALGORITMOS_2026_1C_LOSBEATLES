@@ -1,3 +1,4 @@
+#include <time.h>
 #include "Tipos.h"
 #include "Tablero.h"
 #include "Juego.h"
@@ -10,7 +11,7 @@ int main(int argc, char* argv[])
     Config configuracionTest;
     tListaCircularD listaTest;
 
-
+    srand(time(NULL));
 
     if(LeerConfig(argv[CONFIG_TXT], &configuracionTest) != TODO_OK)
         printf("Error LeerConfig\n");

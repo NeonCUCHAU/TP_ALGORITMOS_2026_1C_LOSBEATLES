@@ -28,7 +28,7 @@ main
 #ifndef TIPOS_H_INCLUDED
 #define TIPOS_H_INCLUDED
 
-///Tipos de celdas
+/*Tipos de celdas*/
 #define CELDA_VACIA '.'
 #define CELDA_INICIO 'I'
 #define CELDA_SALIDA 'S'
@@ -57,39 +57,46 @@ typedef struct
     int maxVidasExtra;
     int maxOasis;
     int maxTormentas;
-} Config;
+}
+Config;
 
-typedef struct
-{
-    char tipo;
-    int activo; // si esta activo para los premios o vidas extras
-}Casilla;
+typedef struct {
+    char terreno;       /* inicio, salida, oasis, tormenta, vacio*/
+    char item;          /* premio, vida, vacio*/
+    int bandidos;       /* 1 si hay un bandido emboscando, 0 si no*/
+    int jugador;        /* 1 si el jugador está pisando esta casilla, 0 si no*/
+} Casilla;
 
 typedef struct
 {
     int vidas;
     int puntos;
-    int protegido; // 0 = no, 1 = sí
-    int pierdeTurno; // 0 = no, 1 = sí
+    int protegido; /* 0 = no, 1 = sí*/
+    int pierdeTurno; /* 0 = no, 1 = sí*/
     tNodoD *posActual;
-}Jugador;
+}
+Jugador;
 
 typedef struct
 {
     int id;
-    int estado; // si esta eliminado el bandido o no
+    int estado; /* si esta eliminado el bandido o no*/
     tNodoD *posActual;
-}Bandido;
+}
+Bandido;
 
-typedef struct {
+typedef struct
+{
     char movimento[2];
-}MovimientoLog; //esto es el logeo que se muestra al final en una LISTA
+}
+MovimientoLog; /*esto es el logeo que se muestra al final en una LISTA*/
 
-typedef struct {
+typedef struct
+{
     char dir;
     int pasos;
-}Movimiento;
+}
+Movimiento;
 
 
-
-#endif // TIPOS_H_INCLUDED
+#endif
