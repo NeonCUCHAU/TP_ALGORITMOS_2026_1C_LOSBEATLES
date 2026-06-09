@@ -299,6 +299,7 @@ int cargarVectorVisual(void* info, void* param)
 {
     ParamCargaVisual* p = (ParamCargaVisual*)param;
 
+<<<<<<< HEAD
     p->vector[p->posActual++] = (Casilla*)info;
 
     return TODO_OK;
@@ -397,3 +398,46 @@ void mostrarTablero(const tListaCircularD* tablero)
 
     free(vec);
 }
+=======
+void mostrarTablero(tListaCircularD ruta)
+{
+    tNodoD *actual;
+    Casilla *c;
+    char contenido[16];
+    int pos = 1, len, i;
+
+    if(!ruta)
+        return;
+
+    actual = ruta;
+
+    printf("\n===== TABLERO =====\n");
+    do
+    {
+        c = (Casilla*) actual->info;
+        len = 0;
+
+        if(c->terreno != CELDA_VACIA)
+            contenido[len++] = c->terreno;
+        if(c->item != CELDA_VACIA)
+            contenido[len++] = c->item;
+        for(i = 0; i < c->bandidos; i++)
+            contenido[len++] = CELDA_BANDIDO;
+        if(c->jugador)
+            contenido[len++] = 'J';
+
+        if(!len)
+            contenido[len++] = CELDA_VACIA;
+        contenido[len] = '\0';
+
+        printf("%02d:[%s]\n", pos, contenido);
+
+        actual = actual->sig;
+        pos++;
+    }
+    while(actual != ruta);
+
+    printf("===================\n");
+}
+
+>>>>>>> 3ca397f (Implementacion de carga de datos, ranking, partidas y jugadores)

@@ -2,30 +2,47 @@
 #include "Tipos.h"
 #include "Tablero.h"
 #include "Juego.h"
+#include "Datos.h"
 
-#define CONFIG_TXT 1
+#define CONFIG_TXT   1
 #define CARAVANA_TXT 2
 
 int main(int argc, char* argv[])
 {
-    Config configuracionTest;
-    tListaCircularD listaTest;
+    Config config;
+    tArbol arbol;
+    registroJugador jugadorActual;
+    char nombre[32];
 
     srand(time(NULL));
 
-    if(LeerConfig(argv[CONFIG_TXT], &configuracionTest) != TODO_OK)
+    if(LeerConfig(argv[CONFIG_TXT], &config) != TODO_OK)
+    {
         printf("Error LeerConfig\n");
+        return ERROR;
+    }
 
-    if(cargarTableroATxt(configuracionTest, argv[CARAVANA_TXT]) != TODO_OK)
-        printf("Error cargarTableroATxt\n");
+    cargarBST(&arbol);
 
-    if(cargarTableroDesdeTxt(&listaTest, argv[CARAVANA_TXT]) != TODO_OK)
-        printf("Error cargarTableroDesdeTxt\n");
+    printf("Ingrese su nombre: ");
+    scanf("%31s", nombre);
+    while(getchar() != '\n');
 
+<<<<<<< HEAD
     //menuPrincipal();
 
     mostrarTablero(&listaTest);
+=======
+    if(buscarOCrearJugador(&arbol, nombre, &jugadorActual) != TODO_OK)
+    {
+        printf("Error al identificar jugador.\n");
+        vaciarArbol(&arbol);
+        return ERROR;
+    }
+>>>>>>> 3ca397f (Implementacion de carga de datos, ranking, partidas y jugadores)
 
-    vaciarListaCircularD(&listaTest);
-    return 0;
+    menuPrincipal(config, argv[CARAVANA_TXT], &jugadorActual, &arbol);
+
+    vaciarArbol(&arbol);
+    return TODO_OK;
 }

@@ -32,11 +32,19 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Datos.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Datos.h" />
 		<Unit filename="Juego.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Juego.h" />
 		<Unit filename="TDA/Comun/Comun.h" />
+		<Unit filename="TDA/TDA_Arbol/arbol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA/TDA_Arbol/arbol.h" />
 		<Unit filename="TDA/TDA_Cola/Cola.c">
 			<Option compilerVar="CC" />
 		</Unit>

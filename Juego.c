@@ -1,9 +1,8 @@
 #include "Juego.h"
 
-int menuPrincipal()
+int menuPrincipal(Config config, const char* archivoTablero, registroJugador* jugadorReg, tArbol* arbol)
 {
-    int opcion = 0;
-    int leidos;
+    int opcion, leidos;
 
     do
     {
@@ -11,38 +10,31 @@ int menuPrincipal()
         printf("---------------------------------\n");
         printf("     CARAVANA DEL DESIERTO\n");
         printf("---------------------------------\n");
-        printf("1 - Nueva partida (proximamente)\n");
-        printf("2 - Ver ranking (proximamente)\n");
-        printf("0 - Salir\n");
-        printf("\n");
+        printf("1 - Nueva partida\n");
+        printf("2 - Ver ranking\n");
+        printf("0 - Salir\n\n");
         printf("Ingrese una opcion: ");
 
         leidos = scanf("%d", &opcion);
-        while (getchar() != '\n');
+        while(getchar() != '\n');
 
-        if (leidos != 1)
+        if(leidos != 1)
             opcion = -1;
 
         switch(opcion)
         {
         case 1:
-            printf("proximamente\n");
-            /*iniciarNuevaPartida();*/
+            iniciarNuevaPartida(config, archivoTablero, jugadorReg, arbol);
             break;
-
         case 2:
-            printf("proximamenteX2\n");
-            /*mostrarRanking();*/
+            mostrarRanking(arbol);
             break;
-
         case 0:
             printf("\nHasta luego.\n");
             break;
-
         default:
-            printf("\nOpcion invalida. Por favor, ingrese un numero.\n");
+            printf("\nOpcion invalida. Por favor, ingrese un numero valido.\n");
         }
-
     }
     while(opcion != 0);
 
@@ -84,9 +76,59 @@ void CrearBandidos(tListaCircularD ruta, tLista* listaBandidos)
     while(actual != ruta);
 }
 
+<<<<<<< HEAD
 int guardarPartida(int idJugador, int puntos)
 {
     FILE* pf = fopen("partidas.dat", "ab");
+=======
+void iniciarNuevaPartida(Config config, const char* archivoTablero, registroJugador* jugadorReg, tArbol* arbol)
+{
+
+}
+
+void mostrarEstado(Jugador *jugador, int turno)
+{
+    printf("\n--- Turno %d ---\n", turno);
+    printf("Vidas:  %d\n", jugador->vidas);
+    printf("Puntos: %d\n", jugador->puntos);
+
+    if(jugador->protegido)
+        printf("Estado: PROTEGIDO por oasis\n");
+    else if(jugador->pierdeTurno)
+        printf("Estado: PIERDE TURNO por tormenta\n");
+    else
+        printf("Estado: Normal\n");
+}
+
+void mostrarMovimientos(tLista *log)
+{
+    tNodo *aux;
+    Movimiento m;
+
+    printf("\n===== REGISTRO DE MOVIMIENTOS =====\n");
+
+    if(listaVacia(log))
+    {
+        printf("Sin movimientos registrados.\n");
+        printf("\n===================================\n");
+        return;
+    }
+
+    aux = *log;
+    while(aux != NULL)
+    {
+        memcpy(&m, aux->info, sizeof(Movimiento));
+        printf("%c%d ", m.dir, m.pasos);
+        aux = aux->sig;
+    }
+    printf("\n===================================\n");
+}
+
+
+
+
+
+>>>>>>> 3ca397f (Implementacion de carga de datos, ranking, partidas y jugadores)
 
     if(!pf)
         return 0;

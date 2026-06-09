@@ -48,6 +48,8 @@ main
 #include "TDA/TDA_Cola/Cola.h"
 
 
+/* TABLERO */
+
 typedef struct
 {
     int cantidadPosiciones;
@@ -60,12 +62,14 @@ typedef struct
 }
 Config;
 
-typedef struct {
+typedef struct
+{
     char terreno;       /* inicio, salida, oasis, tormenta, vacio*/
     char item;          /* premio, vida, vacio*/
     int bandidos;       /* 1 si hay un bandido emboscando, 0 si no*/
     int jugador;        /* 1 si el jugador está pisando esta casilla, 0 si no*/
-} Casilla;
+}
+Casilla;
 
 typedef struct
 {
@@ -87,12 +91,6 @@ Bandido;
 
 typedef struct
 {
-    char movimento[2];
-}
-MovimientoLog; /*esto es el logeo que se muestra al final en una LISTA*/
-
-typedef struct
-{
     char dir;
     int pasos;
 }
@@ -103,5 +101,50 @@ typedef struct
     Casilla** vector;
     unsigned posActual;
 } ParamCargaVisual;
+
+/* DATOS */
+
+/* lo que se guarda en cada nodo del arbol */
+typedef struct
+{
+    char nombre[32];
+    int idJugador;
+    long offset;        /* posicion en jugadores.dat */
+}
+InfoBST;
+
+typedef struct
+{
+    int id;
+    char nombre[32];
+    int pin;
+}
+registroJugador;
+
+typedef struct
+{
+    int id;
+    int idJugador;
+    int puntos;
+    int movimientos;
+    int gano;
+}
+registroPartida;
+
+typedef struct
+{
+    char nombre[32];
+    int puntos;
+    int partidas;
+}
+registroRanking;
+
+typedef struct
+{
+    registroRanking *entradas;
+    int cantidad;
+}
+ParamRanking;
+
 
 #endif

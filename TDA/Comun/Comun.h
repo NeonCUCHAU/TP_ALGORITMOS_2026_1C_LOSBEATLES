@@ -10,7 +10,9 @@
 #define ERR_MEMORIA 2
 #define ERROR_ARCH 3
 #define NO_ENCONTRADO 4
+#define DUPL 5
 #define HAY_ESPACIO 1
+
 
 #define minimo(X, Y) ((X) <= (Y) ? (X) : (Y))
 
@@ -28,6 +30,14 @@ typedef struct sNodoD
     struct sNodoD *sig;
     struct sNodoD *ant;
 } tNodoD;
+
+typedef struct sNodoA
+{
+    void *dato;
+    unsigned tamDato;
+    struct sNodoA *izq;
+    struct sNodoA *der;
+} tNodoA;
 
 typedef int (*tCmp)(const void* a, const void* b);
 typedef int (*tAccion)(void* a, void* param);
