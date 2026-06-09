@@ -280,7 +280,7 @@ int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
             else
                 c.terreno = ch;
 
-            /* procesar el segundo car�cter si existe*/
+            /* procesar el segundo car�cter si existe*/
             if(*(sep + 2) == ' ' && *(sep + 3) != ']')
                 c.item = *(sep + 3);
         }
@@ -294,4 +294,106 @@ int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
     return TODO_OK;
 }
 
+//FUNCIONES PARA MOSTRAR EL TABLERO EN PANTALLA:
+int cargarVectorVisual(void* info, void* param)
+{
+    ParamCargaVisual* p = (ParamCargaVisual*)param;
 
+    p->vector[p->posActual++] = (Casilla*)info;
+
+    return TODO_OK;
+} //funcion tipo tAccion para cargar un vector de Casilla* a partir de la lista circular del tablero
+
+void mostrarTablero(const tListaCircularD* tablero)
+{
+    unsigned cantCasillas = contarNodosListaCircularD(tablero), casillasPorFila = 10, col, inicioFila;
+    Casilla** vec;
+    ParamCargaVisual param;
+
+    vec = malloc(sizeof(Casilla*) * cantCasillas);
+
+    if(!vec)
+        return;
+
+    param.vector = vec;
+    param.posActual = 0;
+
+    recorrerListaCircularD(tablero, cargarVectorVisual, &param);
+
+    for(inicioFila = 0; inicioFila < cantCasillas; inicioFila += casillasPorFila)
+    {
+        /* -------- Borde superior -------- */
+
+        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
+        {
+            printf("+-------+ ");
+        }
+
+        printf("\n");
+
+        /* -------- Línea item -------- */
+
+        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
+        {
+            Casilla* c = vec[inicioFila + col];
+
+            if(c->item != CELDA_VACIA)
+                printf("|   %c   | ", c->item);
+            else
+                printf("|       | ");
+        }
+
+        printf("\n");
+
+        /* -------- Línea terreno-------- */
+
+        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
+        {
+            Casilla* c = vec[inicioFila + col];
+
+            printf("|   %c   | ", c->terreno);
+        }
+
+        printf("\n");
+
+        /* -------- Línea ocupantes -------- */
+
+        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
+        {
+            Casilla* c = vec[inicioFila + col];
+
+            if(c->jugador)
+                printf("|   J   | ");
+
+            else if(c->bandidos == 1)
+                printf("|   B   | ");
+
+            else if(c->bandidos > 1)
+                printf("|  Bx%d | ", c->bandidos);
+
+            else
+                printf("|       | ");
+        }
+
+        printf("\n");
+
+        /* -------- Borde inferior -------- */
+
+        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
+        {
+            printf("+-------+ ");
+        }
+
+        printf("\n");
+
+        /* -------- Numeros -------- */
+        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
+        {
+            printf("   %02u     ", inicioFila + col + 1);
+        }
+
+        printf("\n\n");
+    }
+
+    free(vec);
+}

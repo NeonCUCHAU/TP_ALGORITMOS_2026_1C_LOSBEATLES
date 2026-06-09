@@ -28,5 +28,9 @@ int guardarTableroATxt(const char* nombreArchivo, const char* terreno, const cha
 int cargarTableroATxt(const Config config, const char* nombreArchivo);
 int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo);
 
+//FUNCIONES PARA MOSTRAR EL TABLERO EN PANTALLA:
+int cargarVectorVisual(void* info, void* param);
+void mostrarTablero(const tListaCircularD* tablero);
+
 
 #endif

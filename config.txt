@@ -1,4 +1,4 @@
-cantidad_posiciones: 40
+cantidad_posiciones: 42
 vidas_inicio: 3
 maximo_bandidos: 2
 maximo_premios: 10

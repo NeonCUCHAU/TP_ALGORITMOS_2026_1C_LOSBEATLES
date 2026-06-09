@@ -122,4 +122,24 @@ int recorrerListaCircularD(const tListaCircularD* p, tAccion accion, void* param
     while(act != *p);
 
     return TODO_OK;
-}    
+}
+
+unsigned contarNodosListaCircularD(const tListaCircularD* p)
+{
+    tNodoD* act;
+    unsigned cant = 0;
+
+    if(!p || !*p)
+        return 0;
+
+    act = *p;
+
+    do
+    {
+        cant++;
+        act = act->sig;
+    }
+    while(act != *p);
+
+    return cant;
+}

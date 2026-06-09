@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\juego.c
+1781030760 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\juego.c
 	"Juego.h"
 
-1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\juego.h
+1781030760 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\juego.h
 	"Tipos.h"
 
-1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tipos.h
+1781035089 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tipos.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -21,15 +21,17 @@
 	<stdlib.h>
 	<string.h>
 
-1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.h
+1781035089 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.h
 	"../Comun/Comun.h"
 
 1780158112 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.h
 	"../Comun/Comun.h"
 
-1780250940 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\main.c
+1781035232 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\main.c
+	<time.h>
 	"Tipos.h"
 	"Tablero.h"
+	"Juego.h"
 
 1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.c
 	"Cola.h"
@@ -37,7 +39,7 @@
 1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_lista\lista.c
 	"Lista.h"
 
-1780251303 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.c
+1781035089 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.c
 	"ListaCircularD.h"
 
 1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.c
@@ -46,10 +48,10 @@
 1780158112 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.h
 	"../Comun/Comun.h"
 
-1780251203 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.c
+1781036440 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.c
 	"Tablero.h"
 
-1780250794 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.h
+1781035286 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.h
 	"Tipos.h"
 
 1780576068 source:f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\juego.c

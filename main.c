@@ -22,7 +22,9 @@ int main(int argc, char* argv[])
     if(cargarTableroDesdeTxt(&listaTest, argv[CARAVANA_TXT]) != TODO_OK)
         printf("Error cargarTableroDesdeTxt\n");
 
-    menuPrincipal();
+    //menuPrincipal();
+
+    mostrarTablero(&listaTest);
 
     vaciarListaCircularD(&listaTest);
     return 0;

@@ -98,5 +98,10 @@ typedef struct
 }
 Movimiento;
 
+typedef struct
+{
+    Casilla** vector;
+    unsigned posActual;
+} ParamCargaVisual;
 
 #endif
