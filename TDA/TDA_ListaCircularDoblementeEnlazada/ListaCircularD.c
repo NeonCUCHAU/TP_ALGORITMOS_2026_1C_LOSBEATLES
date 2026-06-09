@@ -102,3 +102,24 @@ int alterarNodoEnListaCircularD(tListaCircularD* p, unsigned pos, tAccion accion
 
     return accion(act->info, param);
 }
+
+int recorrerListaCircularD(const tListaCircularD* p, tAccion accion, void* param)
+{
+    tNodoD *act;
+
+    if(!p || !*p || !accion)
+        return ERROR;
+
+    act = *p;
+
+    do
+    {
+        if(accion(act->info, param) != TODO_OK)
+            return ERROR;
+
+        act = act->sig;
+    }
+    while(act != *p);
+
+    return TODO_OK;
+}    
