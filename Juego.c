@@ -84,4 +84,17 @@ void CrearBandidos(tListaCircularD ruta, tLista* listaBandidos)
     while(actual != ruta);
 }
 
+int guardarPartida(int idJugador, int puntos)
+{
+    FILE* pf = fopen("partidas.dat", "ab");
 
+    if(!pf)
+        return 0;
+
+    fwrite(&idJugador, sizeof(int), 1, pf);
+    fwrite(&puntos, sizeof(int), 1, pf);
+
+    fclose(pf);
+
+    return TODO_OK;
+}
