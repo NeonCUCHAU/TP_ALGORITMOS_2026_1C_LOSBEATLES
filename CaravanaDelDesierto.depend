@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1781124374 source:/home/maximo/Documentos/maximo/TP-Algoritmos/Datos.c
+1781127633 source:/home/maximo/Documentos/maximo/TP-Algoritmos/Datos.c
 	"Datos.h"
 
-1781125892 /home/maximo/Documentos/maximo/TP-Algoritmos/Datos.h
+1781127520 /home/maximo/Documentos/maximo/TP-Algoritmos/Datos.h
 	"Tipos.h"
 	"TDA/TDA_Arbol/arbol.h"
 

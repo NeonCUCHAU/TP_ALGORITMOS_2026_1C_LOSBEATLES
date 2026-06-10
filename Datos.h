@@ -12,10 +12,9 @@
 typedef struct
 {
     registroRanking *registro;
+    int *puntosPorId;
     int cantidad;
-}
-paramRanking;
-
+} paramRanking;
 
 int cmpNombre(const void* a, const void* b);
 

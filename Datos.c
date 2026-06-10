@@ -246,7 +246,7 @@ static int cargarRegistroRanking(void* dato, void* param)
 
     strncpy(e->nombre, info->nombre, 31);
     e->nombre[31] = '\0';
-    e->puntos = obtenerPuntosJugador(info->id);
+    e->puntos = pr->puntosPorId[info->id]; /* O(1) en vez de O(M) */
 
     pr->cantidad++;
 
@@ -257,6 +257,9 @@ void mostrarRanking(tArbol* arbol)
 {
     int cantJugadores, i;
     paramRanking pr;
+    int *puntosPorId;
+    FILE *pf;
+    registroPartida p;
 
     cantJugadores = contarNodosA(arbol);
     if(!cantJugadores)
@@ -265,14 +268,34 @@ void mostrarRanking(tArbol* arbol)
         return;
     }
 
-    pr.registro = malloc(cantJugadores * sizeof(registroRanking));
-    if(!pr.registro)
+    puntosPorId = calloc(cantJugadores, sizeof(int));
+    if(!puntosPorId)
     {
         printf("Error de memoria.\n");
         return;
     }
 
+    pf = fopen(ARCHIVO_PARTIDAS, "rb");
+    if(pf)
+    {
+        while(fread(&p, sizeof(registroPartida), 1, pf) == 1)
+        {
+            if(p.idJugador >= 0 && p.idJugador < cantJugadores)
+                puntosPorId[p.idJugador] += p.puntos;
+        }
+        fclose(pf);
+    }
+
+    pr.registro = malloc(cantJugadores * sizeof(registroRanking));
+    if(!pr.registro)
+    {
+        free(puntosPorId);
+        printf("Error de memoria.\n");
+        return;
+    }
+
     pr.cantidad = 0;
+    pr.puntosPorId = puntosPorId;
 
     recorrerInAccion(arbol, cargarRegistroRanking, &pr);
     ordenarRanking(pr.registro, pr.cantidad);
@@ -287,6 +310,7 @@ void mostrarRanking(tArbol* arbol)
     printf("==============================\n");
 
     free(pr.registro);
+    free(puntosPorId);
 }
 
 
