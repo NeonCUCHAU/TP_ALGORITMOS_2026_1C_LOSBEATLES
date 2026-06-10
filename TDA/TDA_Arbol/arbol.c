@@ -74,6 +74,93 @@ int buscarEnArbol(const tArbol *a, const void *clave, void *resultado, size_t ta
         return buscarEnArbol(&(*a)->der, clave, resultado, tamElem, cmp);
 }
 
+static tNodoA** buscarMayorA(const tArbol *a)
+{
+    if(!*a || (*a)->der == NULL)
+        return (tNodoA**)a;
+
+    return buscarMayorA(&(*a)->der);
+}
+
+static tNodoA** buscarMenorA(const tArbol* a)
+{
+    if(!*a || (*a)->izq == NULL)
+        return (tNodoA**)a;
+
+    return buscarMenorA(&(*a)->izq);
+}
+
+static void eliminarNodoA(tArbol *a)
+{
+    if(!a || !*a)
+        return;
+
+    free((*a)->dato);
+    free(*a);
+    *a = NULL;
+}
+
+static int eliminarRaizA(tArbol *a)
+{
+    tNodoA **pReemplazo;
+    tNodoA *elim;
+    void *datoAux;
+    unsigned tamAux;
+
+    if(!a || !*a)
+        return ERROR;
+
+    if (!(*a)->izq && !(*a)->der)
+    {
+        eliminarNodoA(a);
+        return TODO_OK;
+    }
+
+    if (alturaA(&(*a)->izq) > alturaA(&(*a)->der))
+    {
+        pReemplazo = buscarMayorA(&(*a)->izq);
+        elim = *pReemplazo;
+        *pReemplazo = elim->izq;
+    }
+    else
+    {
+        pReemplazo = buscarMenorA(&(*a)->der);
+        elim = *pReemplazo;
+        *pReemplazo = elim->der;
+    }
+
+    datoAux = (*a)->dato;
+    (*a)->dato = elim->dato;
+    elim->dato = datoAux;
+
+    tamAux = (*a)->tamDato;
+    (*a)->tamDato = elim->tamDato;
+    elim->tamDato = tamAux;
+
+    eliminarNodoA(&elim);
+    return TODO_OK;
+}
+
+int eliminarNodoXClave(tArbol *a, const void *clave, void *resultado, size_t tamElem, tCmp cmp)
+{
+    int comp = cmp((*a)->dato, clave);
+
+    if(!a || !*a)
+        return ERROR;
+
+    if(comp == 0)
+    {
+        if(resultado)
+            memcpy(resultado, (*a)->dato, tamElem);
+
+        return eliminarRaizA(a);
+    }
+    if(comp > 0)
+        return eliminarNodoXClave(&(*a)->izq, clave, resultado, tamElem, cmp);
+    else
+        return eliminarNodoXClave(&(*a)->der, clave, resultado, tamElem, cmp);
+}
+
 void recorrerInAccion(tArbol *a, tAccion accion, void *param)
 {
     if(!a || !*a)
@@ -124,6 +211,19 @@ void recorrerPos(const tArbol *a, tMostrar mostrar)
     mostrar((*a)->dato);
 }
 
+int alturaA(const tArbol *a)
+{
+    int altIzq, altDer;
+
+    if(!a || !*a)
+        return 0;
+
+    altIzq = alturaA(&(*a)->izq);
+    altDer = alturaA(&(*a)->der);
+
+    return 1 + (altIzq > altDer ? altIzq : altDer);
+}
+
 int contarNodosA(tArbol *a)
 {
     if(!a || !*a)
@@ -148,7 +248,6 @@ void eliminarHojas(tArbol *a)
     eliminarHojas(&(*a)->izq);
     eliminarHojas(&(*a)->der);
 }
-
 
 
 

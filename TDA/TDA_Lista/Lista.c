@@ -111,3 +111,23 @@ int verUltimoLista(const tLista *p, void *d, unsigned cantBytes)
     memcpy(d, (*p)->info, minimo(cantBytes, (*p)->tamInfo));
     return TODO_OK;
 }
+
+void recorrerLista(const tLista *p, tAccion accion, void *param)
+{
+    const tNodo *aux = *p;
+    while(aux != NULL)
+    {
+        accion(aux->info, param);
+        aux = aux->sig;
+    }
+}
+
+void mostrarLista(const tLista *p, tMostrar mostrar)
+{
+    const tNodo *aux = *p;
+    while(aux != NULL)
+    {
+        mostrar(aux->info);
+        aux = aux->sig;
+    }
+}

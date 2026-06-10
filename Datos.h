@@ -8,6 +8,15 @@
 #define ARCHIVO_PARTIDAS  "partidas.dat"
 #define ARCHIVO_BST       "bst.dat"
 
+
+typedef struct
+{
+    registroRanking *registro;
+    int cantidad;
+}
+paramRanking;
+
+
 int cmpNombre(const void* a, const void* b);
 
 void cargarBST(tArbol* arbol);

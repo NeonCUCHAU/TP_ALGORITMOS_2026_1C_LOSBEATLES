@@ -10,14 +10,16 @@ typedef tNodoA* tArbol;
 
 void crearArbol(tArbol *a);
 void vaciarArbol(tArbol *a);
-int  insertarEnArbol(tArbol *a, const void *elem, size_t tamElem, tCmp cmp);
-int  buscarEnArbol(const tArbol *a, const void *clave, void *resultado, size_t tamElem, tCmp cmp);
-void recorrerIn(const tArbol *a, tMostrar mostrar);
+int insertarEnArbol(tArbol *a, const void *elem, size_t tamElem, tCmp cmp);
+int buscarEnArbol(const tArbol *a, const void *clave, void *resultado, size_t tamElem, tCmp cmp);
+int eliminarNodoXClave(tArbol *a, const void *clave, void *resultado, size_t tamElem, tCmp cmp);
 void recorrerInAccion(tArbol *a, tAccion accion, void *param);
 void recorrerPreAccion(tArbol *a, tAccion accion, void *param);
+void recorrerIn(const tArbol *a, tMostrar mostrar);
 void recorrerPre(const tArbol *a, tMostrar mostrar);
 void recorrerPos(const tArbol *a, tMostrar mostrar);
-int  contarNodosA(tArbol *a);
+int alturaA(const tArbol *a);
+int contarNodosA(tArbol *a);
 void eliminarHojas(tArbol *a);
 
 #endif

@@ -107,9 +107,9 @@ typedef struct
 /* lo que se guarda en cada nodo del arbol */
 typedef struct
 {
-    int idJugador;
+    int id;
     char nombre[32];
-    long offset;        /* posicion en jugadores.dat */
+    long offset; /* posicion en jugadores.dat */
 }
 InfoBST;
 
@@ -123,7 +123,7 @@ registroJugador;
 
 typedef struct
 {
-    int id;
+    int id; /* por ahora no se usa */
     int idJugador;
     int puntos;
     int movimientos;
@@ -135,16 +135,8 @@ typedef struct
 {
     char nombre[32];
     int puntos;
-    int partidas;
 }
 registroRanking;
-
-typedef struct
-{
-    registroRanking *entradas;
-    int cantidad;
-}
-ParamRanking;
 
 
 #endif

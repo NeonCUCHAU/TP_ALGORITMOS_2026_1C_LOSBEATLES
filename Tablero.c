@@ -294,7 +294,7 @@ int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
     return TODO_OK;
 }
 
-//FUNCIONES PARA MOSTRAR EL TABLERO EN PANTALLA:
+/*FUNCIONES PARA MOSTRAR EL TABLERO EN PANTALLA:*/
 int cargarVectorVisual(void* info, void* param)
 {
     ParamCargaVisual* p = (ParamCargaVisual*)param;
@@ -302,7 +302,7 @@ int cargarVectorVisual(void* info, void* param)
     p->vector[p->posActual++] = (Casilla*)info;
 
     return TODO_OK;
-} //funcion tipo tAccion para cargar un vector de Casilla* a partir de la lista circular del tablero
+} /*funcion tipo tAccion para cargar un vector de Casilla* a partir de la lista circular del tablero*/
 
 void mostrarTablero(const tListaCircularD* tablero)
 {

@@ -28,8 +28,6 @@ int main(int argc, char* argv[])
     scanf("%31s", nombre);
     while(getchar() != '\n');
 
-    /*menuPrincipal();*/
-
     if(buscarOCrearJugador(&arbol, nombre, &jugadorActual) != TODO_OK)
     {
         printf("Error al identificar jugador.\n");

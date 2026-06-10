@@ -11,6 +11,22 @@ static int serializarNodo(void* dato, void* param)
     return fwrite(dato, sizeof(InfoBST), 1, pf) == 1 ? TODO_OK : ERROR_ARCH;
 }
 
+/*
+static int contarPartidas()
+{
+    FILE *pf = fopen(ARCHIVO_PARTIDAS, "rb");
+    int cant = 0;
+
+    if(!pf)
+        return 0;
+
+    fseek(pf, 0, SEEK_END);
+    cant = (int)(ftell(pf) / sizeof(registroPartida));
+    fclose(pf);
+
+    return cant;
+}
+*/
 static int contarJugadores()
 {
     FILE *pf = fopen(ARCHIVO_JUGADORES, "rb");
@@ -106,11 +122,11 @@ void cargarBST(tArbol* arbol)
 int guardarJugador(const registroJugador* j)
 {
     FILE *pf = fopen(ARCHIVO_JUGADORES, "ab");
-
     if(!pf)
         return ERROR_ARCH;
 
     fwrite(j, sizeof(registroJugador), 1, pf);
+
     fclose(pf);
     return TODO_OK;
 }
@@ -118,33 +134,27 @@ int guardarJugador(const registroJugador* j)
 static int registrarJugador(tArbol* arbol, const char* nombre, registroJugador* resultado)
 {
     InfoBST infoNueva;
-    FILE *pf;
     int cantActual;
 
     cantActual = contarJugadores();
-
-    pf = fopen(ARCHIVO_JUGADORES, "ab");
-    if(!pf)
-        return ERROR_ARCH;
 
     resultado->id = cantActual;
     strncpy(resultado->nombre, nombre, 31);
     resultado->nombre[31] = '\0';
     resultado->pin = nuevoPin();
 
-    infoNueva.idJugador = resultado->id;
     strncpy(infoNueva.nombre, nombre, 31);
+    infoNueva.id = cantActual;
     infoNueva.nombre[31] = '\0';
     infoNueva.offset = (long)(cantActual * sizeof(registroJugador));
 
-    fwrite(resultado, sizeof(registroJugador), 1, pf);
+    if(guardarJugador(resultado) != TODO_OK)
+        return ERROR_ARCH;
 
     insertarEnArbol(arbol, &infoNueva, sizeof(InfoBST), cmpNombre);
     persistirBST(arbol);
 
     printf("Bienvenido, %s! Se ha registrado su usuario.\n", nombre);
-
-    fclose(pf);
     return TODO_OK;
 }
 
@@ -186,7 +196,7 @@ int guardarPartida(const registroPartida* p)
     return TODO_OK;
 }
 
-int obtenerPuntosJugador(int idJugador)
+int obtenerPuntosJugador(int idJugador) /* se considera las partidas perdidas?*/
 {
     FILE *pf = fopen(ARCHIVO_PARTIDAS, "rb");
     registroPartida p;
@@ -207,22 +217,6 @@ int obtenerPuntosJugador(int idJugador)
 
 /**/
 
-static int cargarEntradaRanking(void* dato, void* param)
-{
-    InfoBST *info = (InfoBST*) dato;
-    ParamRanking *pr = (ParamRanking*) param;
-    registroRanking *e;
-
-    e = &pr->entradas[pr->cantidad];
-    strncpy(e->nombre, info->nombre, 31);
-    e->nombre[31] = '\0';
-    e->puntos = obtenerPuntosJugador(info->idJugador);
-    e->partidas = 0;
-    pr->cantidad++;
-
-    return TODO_OK;
-}
-
 static void ordenarRanking(registroRanking* entradas, int cant)
 {
     int i, j;
@@ -242,10 +236,27 @@ static void ordenarRanking(registroRanking* entradas, int cant)
     }
 }
 
+static int cargarRegistroRanking(void* dato, void* param)
+{
+    InfoBST *info = (InfoBST*) dato;
+    paramRanking *pr = (paramRanking*) param;
+    registroRanking *e;
+
+    e = &pr->registro[pr->cantidad];
+
+    strncpy(e->nombre, info->nombre, 31);
+    e->nombre[31] = '\0';
+    e->puntos = obtenerPuntosJugador(info->id);
+
+    pr->cantidad++;
+
+    return TODO_OK;
+}
+
 void mostrarRanking(tArbol* arbol)
 {
     int cantJugadores, i;
-    ParamRanking pr;
+    paramRanking pr;
 
     cantJugadores = contarNodosA(arbol);
     if(!cantJugadores)
@@ -254,27 +265,28 @@ void mostrarRanking(tArbol* arbol)
         return;
     }
 
-    pr.entradas = malloc(cantJugadores * sizeof(registroRanking));
-    if(!pr.entradas)
+    pr.registro = malloc(cantJugadores * sizeof(registroRanking));
+    if(!pr.registro)
     {
         printf("Error de memoria.\n");
         return;
     }
+
     pr.cantidad = 0;
 
-    /* carga de puntos de cada jugador recorriendo el BST*/
-    recorrerInAccion(arbol, cargarEntradaRanking, &pr);
-    ordenarRanking(pr.entradas, pr.cantidad);
+    recorrerInAccion(arbol, cargarRegistroRanking, &pr);
+    ordenarRanking(pr.registro, pr.cantidad);
 
     printf("\n========== RANKING ==========\n");
-    printf("%-4s %-20s %s", "POS", "JUGADOR", "PUNTOS");
-    printf("\n------------------------------\n");
+    printf("%-4s %-20s %s\n", "POS", "JUGADOR", "PUNTOS");
+    printf("------------------------------\n");
 
     for(i = 0; i < pr.cantidad; i++)
-        printf("%-4d %-20s %d\n", i + 1, pr.entradas[i].nombre, pr.entradas[i].puntos);
+        printf("%-4d %-20s %d\n", i + 1, pr.registro[i].nombre, pr.registro[i].puntos);
 
     printf("==============================\n");
 
-    free(pr.entradas);
+    free(pr.registro);
 }
+
 

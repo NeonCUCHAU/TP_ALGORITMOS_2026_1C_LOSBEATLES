@@ -1,5 +1,4 @@
 01:[I J]
-<<<<<<< HEAD
 02:[T]
 03:[V]
 04:[P]
@@ -41,7 +40,6 @@
 40:[.]
 41:[.]
 42:[S]
-=======
 02:[V]
 03:[.]
 04:[P]
@@ -81,4 +79,3 @@
 38:[P]
 39:[O V]
 40:[S]
->>>>>>> 3ca397f (Implementacion de carga de datos, ranking, partidas y jugadores)

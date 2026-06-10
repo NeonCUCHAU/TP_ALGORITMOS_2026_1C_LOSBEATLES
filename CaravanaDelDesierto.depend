@@ -1,194 +1,12 @@
 # depslib dependency file v1.0
-1781030760 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\juego.c
-	"Juego.h"
-
-1781030760 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\juego.h
-	"Tipos.h"
-
-1781035089 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tipos.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	"TDA/TDA_Lista/Lista.h"
-	"TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
-	"TDA/TDA_Cola/Cola.h"
-
-1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_lista\lista.h
-	"../Comun/Comun.h"
-
-1780237075 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\comun\comun.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-
-1781035089 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.h
-	"../Comun/Comun.h"
-
-1780158112 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.h
-	"../Comun/Comun.h"
-
-1781035232 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\main.c
-	<time.h>
-	"Tipos.h"
-	"Tablero.h"
-	"Juego.h"
-
-1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.c
-	"Cola.h"
-
-1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_lista\lista.c
-	"Lista.h"
-
-1781035089 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.c
-	"ListaCircularD.h"
-
-1780237075 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.c
-	"Pila.h"
-
-1780158112 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.h
-	"../Comun/Comun.h"
-
-1781036440 source:c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.c
-	"Tablero.h"
-
-1781035286 c:\users\vacas\onedrive\desktop\tp_algoritmos\tp_algoritmos_2026_1c_losbeatles\tablero.h
-	"Tipos.h"
-
-1781038111 source:f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\juego.c
-	"Juego.h"
-
-1781035247 f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\juego.h
-	"Tipos.h"
-
-1781038029 f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tipos.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	"TDA/TDA_Lista/Lista.h"
-	"TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
-	"TDA/TDA_Cola/Cola.h"
-
-1780247033 f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\tda_lista\lista.h
-	"../Comun/Comun.h"
-
-1780247033 f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\comun\comun.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-
-1781038029 f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.h
-	"../Comun/Comun.h"
-
-1780247033 f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.h
-	"../Comun/Comun.h"
-
-1781038029 source:f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tablero.c
-	"Tablero.h"
-
-1781038029 f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tablero.h
-	"Tipos.h"
-
-1780247033 source:f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\tda_cola\cola.c
-	"Cola.h"
-
-1780247033 source:f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\tda_lista\lista.c
-	"Lista.h"
-
-1781038029 source:f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\tda_listacirculardoblementeenlazada\listacirculard.c
-	"ListaCircularD.h"
-
-1780247033 source:f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.c
-	"Pila.h"
-
-1780247033 f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\tda\tda_pila\pila.h
-	"../Comun/Comun.h"
-
-1781038029 source:f:\cosas\universidad\algoritmosyestructuradedatos\tp_algoritmos_2026_1c_losbeatles\main.c
-	<time.h>
-	"Tipos.h"
-	"Tablero.h"
-	"Juego.h"
-
-1780943602 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_cola\cola.c
-	"Cola.h"
-
-1780943602 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_cola\cola.h
-	"../Comun/Comun.h"
-
-1781037520 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\comun\comun.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-
-1780943602 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_lista\lista.c
-	"Lista.h"
-
-1780943602 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_lista\lista.h
-	"../Comun/Comun.h"
-
-1781033990 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_listacirculardoblementeenlazada\listacirculard.c
-	"ListaCircularD.h"
-
-1781033990 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_listacirculardoblementeenlazada\listacirculard.h
-	"../Comun/Comun.h"
-
-1780943602 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_pila\pila.c
-	"Pila.h"
-
-1780943602 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_pila\pila.h
-	"../Comun/Comun.h"
-
-1781041649 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\main.c
-	<time.h>
-	"Tipos.h"
-	"Tablero.h"
-	"Juego.h"
+1781124374 source:/home/maximo/Documentos/maximo/TP-Algoritmos/Datos.c
 	"Datos.h"
 
-1781040588 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tipos.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	"TDA/TDA_Lista/Lista.h"
-	"TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
-	"TDA/TDA_Cola/Cola.h"
-
-1781037731 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tablero.h
-	"Tipos.h"
-
-1781041941 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\juego.h
-	"Tipos.h"
-	"Datos.h"
-
-1781037722 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\juego.c
-	"Juego.h"
-
-1781037715 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tablero.c
-	"Tablero.h"
-
-1781038221 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_arbol\arbol.c
-	"arbol.h"
-
-1781038257 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_arbol\arbol.h
-	<stdio.h>
-	<stdlib.h>
-	"../Comun/Comun.h"
-
-1781041391 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\datos.c
-	"Datos.h"
-
-1781039969 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\datos.h
+1781125892 /home/maximo/Documentos/maximo/TP-Algoritmos/Datos.h
 	"Tipos.h"
 	"TDA/TDA_Arbol/arbol.h"
 
-1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\datos.c
-	"Datos.h"
-
-1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\datos.h
-	"Tipos.h"
-	"TDA/TDA_Arbol/arbol.h"
-
-1781091196 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tipos.h
+1781125882 /home/maximo/Documentos/maximo/TP-Algoritmos/Tipos.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -196,60 +14,60 @@
 	"TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
 	"TDA/TDA_Cola/Cola.h"
 
-1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_lista\lista.h
+1781118239 /home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Lista/Lista.h
 	"../Comun/Comun.h"
 
-1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\comun\comun.h
+1781115929 /home/maximo/Documentos/maximo/TP-Algoritmos/TDA/Comun/Comun.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1781091950 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_listacirculardoblementeenlazada\listacirculard.h
+1781115929 /home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h
 	"../Comun/Comun.h"
 
-1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_cola\cola.h
+1781115929 /home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Cola/Cola.h
 	"../Comun/Comun.h"
 
-1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_arbol\arbol.h
+1781116431 /home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Arbol/arbol.h
 	<stdio.h>
 	<stdlib.h>
 	"../Comun/Comun.h"
 
-1781091429 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\juego.c
+1781118362 source:/home/maximo/Documentos/maximo/TP-Algoritmos/Juego.c
 	"Juego.h"
 
-1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\juego.h
+1781115929 /home/maximo/Documentos/maximo/TP-Algoritmos/Juego.h
 	"Tipos.h"
 	"Datos.h"
 
-1781091760 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\main.c
+1781117530 source:/home/maximo/Documentos/maximo/TP-Algoritmos/main.c
 	<time.h>
 	"Tipos.h"
 	"Tablero.h"
 	"Juego.h"
 	"Datos.h"
 
-1781091858 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tablero.h
+1781116604 /home/maximo/Documentos/maximo/TP-Algoritmos/Tablero.h
 	"Tipos.h"
 
-1781091871 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tablero.c
+1781116618 source:/home/maximo/Documentos/maximo/TP-Algoritmos/Tablero.c
 	"Tablero.h"
 
-1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_arbol\arbol.c
-	"arbol.h"
-
-1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_cola\cola.c
+1781115929 source:/home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Cola/Cola.c
 	"Cola.h"
 
-1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_lista\lista.c
+1781118225 source:/home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Lista/Lista.c
 	"Lista.h"
 
-1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_listacirculardoblementeenlazada\listacirculard.c
+1781115929 source:/home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.c
 	"ListaCircularD.h"
 
-1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_pila\pila.c
+1781115929 source:/home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Pila/Pila.c
 	"Pila.h"
 
-1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_pila\pila.h
+1781115929 /home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Pila/Pila.h
 	"../Comun/Comun.h"
+
+1781116658 source:/home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Arbol/arbol.c
+	"arbol.h"
 

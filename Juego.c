@@ -95,11 +95,14 @@ void mostrarEstado(Jugador *jugador, int turno)
         printf("Estado: Normal\n");
 }
 
+static void imprimirMovimiento(const void *dato)
+{
+    const Movimiento *m = (const Movimiento*) dato;
+    printf("%c%d ", m->dir, m->pasos);
+}
+
 void mostrarMovimientos(tLista *log)
 {
-    tNodo *aux;
-    Movimiento m;
-
     printf("\n===== REGISTRO DE MOVIMIENTOS =====\n");
 
     if(listaVacia(log))
@@ -109,12 +112,8 @@ void mostrarMovimientos(tLista *log)
         return;
     }
 
-    aux = *log;
-    while(aux != NULL)
-    {
-        memcpy(&m, aux->info, sizeof(Movimiento));
-        printf("%c%d ", m.dir, m.pasos);
-        aux = aux->sig;
-    }
+    mostrarLista(log, imprimirMovimiento);
     printf("\n===================================\n");
 }
+
+
