@@ -28,13 +28,9 @@ int guardarTableroATxt(const char* nombreArchivo, const char* terreno, const cha
 int cargarTableroATxt(const Config config, const char* nombreArchivo);
 int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo);
 
-<<<<<<< HEAD
+
 //FUNCIONES PARA MOSTRAR EL TABLERO EN PANTALLA:
 int cargarVectorVisual(void* info, void* param);
 void mostrarTablero(const tListaCircularD* tablero);
-=======
-void mostrarTablero(tListaCircularD ruta);
->>>>>>> 3ca397f (Implementacion de carga de datos, ranking, partidas y jugadores)
-
 
 #endif

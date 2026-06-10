@@ -107,8 +107,8 @@ typedef struct
 /* lo que se guarda en cada nodo del arbol */
 typedef struct
 {
-    char nombre[32];
     int idJugador;
+    char nombre[32];
     long offset;        /* posicion en jugadores.dat */
 }
 InfoBST;

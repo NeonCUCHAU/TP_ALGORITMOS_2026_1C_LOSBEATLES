@@ -28,18 +28,14 @@ int main(int argc, char* argv[])
     scanf("%31s", nombre);
     while(getchar() != '\n');
 
-<<<<<<< HEAD
-    //menuPrincipal();
+    /*menuPrincipal();*/
 
-    mostrarTablero(&listaTest);
-=======
     if(buscarOCrearJugador(&arbol, nombre, &jugadorActual) != TODO_OK)
     {
         printf("Error al identificar jugador.\n");
         vaciarArbol(&arbol);
         return ERROR;
     }
->>>>>>> 3ca397f (Implementacion de carga de datos, ranking, partidas y jugadores)
 
     menuPrincipal(config, argv[CARAVANA_TXT], &jugadorActual, &arbol);
 

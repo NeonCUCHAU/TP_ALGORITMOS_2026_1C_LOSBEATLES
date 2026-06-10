@@ -181,3 +181,75 @@
 	"Tipos.h"
 	"TDA/TDA_Arbol/arbol.h"
 
+1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\datos.c
+	"Datos.h"
+
+1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\datos.h
+	"Tipos.h"
+	"TDA/TDA_Arbol/arbol.h"
+
+1781091196 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tipos.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"TDA/TDA_Lista/Lista.h"
+	"TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
+	"TDA/TDA_Cola/Cola.h"
+
+1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_lista\lista.h
+	"../Comun/Comun.h"
+
+1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\comun\comun.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1781091950 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_listacirculardoblementeenlazada\listacirculard.h
+	"../Comun/Comun.h"
+
+1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_cola\cola.h
+	"../Comun/Comun.h"
+
+1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_arbol\arbol.h
+	<stdio.h>
+	<stdlib.h>
+	"../Comun/Comun.h"
+
+1781091429 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\juego.c
+	"Juego.h"
+
+1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\juego.h
+	"Tipos.h"
+	"Datos.h"
+
+1781091760 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\main.c
+	<time.h>
+	"Tipos.h"
+	"Tablero.h"
+	"Juego.h"
+	"Datos.h"
+
+1781091858 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tablero.h
+	"Tipos.h"
+
+1781091871 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tablero.c
+	"Tablero.h"
+
+1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_arbol\arbol.c
+	"arbol.h"
+
+1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_cola\cola.c
+	"Cola.h"
+
+1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_lista\lista.c
+	"Lista.h"
+
+1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_listacirculardoblementeenlazada\listacirculard.c
+	"ListaCircularD.h"
+
+1781090978 source:c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_pila\pila.c
+	"Pila.h"
+
+1781090978 c:\users\laboratorios\downloads\tp_algoritmos_2026_1c_losbeatles-main\tda\tda_pila\pila.h
+	"../Comun/Comun.h"
+

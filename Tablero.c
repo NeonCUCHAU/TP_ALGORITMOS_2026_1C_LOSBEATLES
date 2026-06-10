@@ -299,7 +299,6 @@ int cargarVectorVisual(void* info, void* param)
 {
     ParamCargaVisual* p = (ParamCargaVisual*)param;
 
-<<<<<<< HEAD
     p->vector[p->posActual++] = (Casilla*)info;
 
     return TODO_OK;
@@ -398,7 +397,8 @@ void mostrarTablero(const tListaCircularD* tablero)
 
     free(vec);
 }
-=======
+
+/*
 void mostrarTablero(tListaCircularD ruta)
 {
     tNodoD *actual;
@@ -439,5 +439,4 @@ void mostrarTablero(tListaCircularD ruta)
 
     printf("===================\n");
 }
-
->>>>>>> 3ca397f (Implementacion de carga de datos, ranking, partidas y jugadores)
+*/

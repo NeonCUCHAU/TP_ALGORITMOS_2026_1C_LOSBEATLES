@@ -76,11 +76,6 @@ void CrearBandidos(tListaCircularD ruta, tLista* listaBandidos)
     while(actual != ruta);
 }
 
-<<<<<<< HEAD
-int guardarPartida(int idJugador, int puntos)
-{
-    FILE* pf = fopen("partidas.dat", "ab");
-=======
 void iniciarNuevaPartida(Config config, const char* archivoTablero, registroJugador* jugadorReg, tArbol* arbol)
 {
 
@@ -122,21 +117,4 @@ void mostrarMovimientos(tLista *log)
         aux = aux->sig;
     }
     printf("\n===================================\n");
-}
-
-
-
-
-
->>>>>>> 3ca397f (Implementacion de carga de datos, ranking, partidas y jugadores)
-
-    if(!pf)
-        return 0;
-
-    fwrite(&idJugador, sizeof(int), 1, pf);
-    fwrite(&puntos, sizeof(int), 1, pf);
-
-    fclose(pf);
-
-    return TODO_OK;
 }

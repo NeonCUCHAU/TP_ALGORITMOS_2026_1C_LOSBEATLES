@@ -13,5 +13,4 @@ int alterarNodoEnListaCircularD(tListaCircularD* p, unsigned pos, tAccion accion
 int recorrerListaCircularD(const tListaCircularD* p, tAccion accion, void* param);
 unsigned contarNodosListaCircularD(const tListaCircularD* p);
 
-
 #endif
