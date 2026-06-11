@@ -131,3 +131,33 @@ void mostrarLista(const tLista *p, tMostrar mostrar)
         aux = aux->sig;
     }
 }
+
+int eliminarNodo(tLista *p, tNodo *nodoEliminar)
+{
+    tNodo *actual, *anterior;
+
+    if(!nodoEliminar || !p)
+        return ERROR;
+
+    anterior = NULL;
+    actual = *p;
+
+    while(actual != NULL && actual != nodoEliminar)
+    {
+        anterior = actual;
+        actual = actual->sig;
+    }
+
+    if(actual != NULL)
+    {
+        if(anterior == NULL)
+            *p = actual->sig;
+        else
+            anterior->sig = actual->sig;
+        free(actual->info);
+        free(actual);
+        return TODO_OK;
+    }
+
+    return NO_ENCONTRADO;
+}

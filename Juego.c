@@ -116,4 +116,82 @@ void mostrarMovimientos(tLista *log)
     printf("\n===================================\n");
 }
 
+void encolarMovBandidos(tLista listaBandidos, const Jugador *jugador, tCola *cola)
+{
+    tNodo      *actual;
+    Bandido    *b;
+    tNodoD     *cursor;
+    Movimiento  mov;
+    int         encontrado;
 
+    actual = listaBandidos;
+    while(actual != NULL)
+    {
+        b = (Bandido*) actual->info;
+
+        if(b->estado == 1)
+        {
+            /* Avanzar desde el bandido: si llegamos al jugador antes
+               de dar vuelta completa, el jugador esta adelante */
+            cursor     = b->posActual->sig;
+            encontrado = 0;
+
+            while(cursor != b->posActual && !encontrado)
+            {
+                if(cursor == jugador->posActual)
+                    encontrado = 1;
+                else
+                    cursor = cursor->sig;
+            }
+
+            mov.dir   = encontrado ? 'f' : 'b';//[F(Forward),B(Backward)] en minusculas para bandidos en mayusculas para jugador
+            mov.pasos = lanzarDado();
+            ponerEnCola(cola, &mov, sizeof(Movimiento));
+        }
+        actual = actual->sig;
+    }
+}
+
+int verificarColisionBandido(Jugador *jugador, tLista *listaBandidos,tNodoD *nodoInicio)
+//nodoInicio le mando por parametro la posicion inicial del tablero
+{
+    tNodo   *actual;
+    Bandido *b;
+    Casilla *c;
+
+    actual = *listaBandidos;
+    while(actual != NULL)
+    {
+        b = (Bandido*) actual->info;
+        if(b->estado == 1 && b->posActual == jugador->posActual)
+        {
+            if(jugador->protegido == 1)
+            {
+                printf("  >> Bandido cerca, pero estas PROTEGIDO por el oasis!\n");
+                jugador->protegido = 0;
+                eliminarNodo(listaBandidos, actual);
+                return JUGADOR_PROTEGIDO;
+            }
+            jugador->vidas--;
+
+            /* Limpiar bandido de la casilla */
+            c = (Casilla*) b->posActual->info;
+            c->bandidos = 0;
+
+            printf("  >> Un bandido te intercepto! Vidas: %d\n", jugador->vidas);
+            /* Quitar jugador de la casilla actual */
+            c = (Casilla*) jugador->posActual->info;
+            c->jugador = 0;
+
+            /* Volver al inicio */
+            jugador->posActual = nodoInicio;
+            c = (Casilla*) nodoInicio->info;
+            c->jugador = 1;
+
+            eliminarNodo(listaBandidos, actual);
+            return JUGADOR_PIERDEVIDA;
+        }
+        actual = actual->sig;
+    }
+    return TODO_OK;
+}

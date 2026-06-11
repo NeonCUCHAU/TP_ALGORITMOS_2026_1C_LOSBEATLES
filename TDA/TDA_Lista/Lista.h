@@ -19,5 +19,6 @@ int sacarUltimoLista(tLista *p, void *d, unsigned cantBytes);
 int verUltimoLista(const tLista *p, void *d, unsigned cantBytes);
 void recorrerLista(const tLista *p, tAccion accion, void *param);
 void mostrarLista(const tLista *p, tMostrar mostrar);
+int eliminarNodo(tLista *p, tNodo *nodoEliminar);
 
 #endif
