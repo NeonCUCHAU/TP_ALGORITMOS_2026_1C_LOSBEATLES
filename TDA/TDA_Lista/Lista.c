@@ -161,3 +161,33 @@ int eliminarNodo(tLista *p, tNodo *nodoEliminar)
 
     return NO_ENCONTRADO;
 }
+
+int eliminarPorCondicion(tLista *p, tComparador comparador, void *criterio)
+{
+    tNodo *actual, *anterior;
+
+    if(!p || !comparador)
+        return ERROR;
+
+    anterior = NULL;
+    actual = *p;
+
+    while(actual != NULL)
+    {
+        if(comparador(actual->info, criterio))
+        {
+            /* Encontrado - eliminar */
+            if(anterior == NULL)
+                *p = actual->sig;
+            else
+                anterior->sig = actual->sig;
+            free(actual->info);
+            free(actual);
+            return TODO_OK;
+        }
+        anterior = actual;
+        actual = actual->sig;
+    }
+
+    return NO_ENCONTRADO;
+}

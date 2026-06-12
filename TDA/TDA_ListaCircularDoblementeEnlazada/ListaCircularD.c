@@ -143,3 +143,75 @@ unsigned contarNodosListaCircularD(const tListaCircularD* p)
 
     return cant;
 }
+
+tNodoD* obtenerNodoPorIndiceD(const tListaCircularD* p, unsigned indice)
+{
+    tNodoD *act;
+    unsigned pos;
+
+    if(!p || !*p)
+        return NULL;
+
+    act = *p;
+    pos = 0;
+
+    do
+    {
+        if(pos == indice)
+            return act;
+        pos++;
+        act = act->sig;
+    }
+    while(act != *p);
+
+    return NULL;
+}
+
+void* obtenerInfoPorIndiceD(const tListaCircularD* p, unsigned indice)
+{
+    tNodoD *act;
+    unsigned pos;
+
+    if(!p || !*p)
+        return NULL;
+
+    act = *p;
+    pos = 0;
+
+    do
+    {
+        if(pos == indice)
+            return act->info;
+        pos++;
+        act = act->sig;
+    }
+    while(act != *p);
+
+    return NULL;
+}
+
+int modificarInfoPorIndiceD(tListaCircularD* p, unsigned indice, const void *datos, unsigned tamDatos)
+{
+    tNodoD *act;
+    unsigned pos;
+
+    if(!p || !*p || !datos)
+        return ERROR;
+
+    act = *p;
+    pos = 0;
+
+    do
+    {
+        if(pos == indice)
+        {
+            memcpy(act->info, datos, minimo(tamDatos, act->tamInfo));
+            return TODO_OK;
+        }
+        pos++;
+        act = act->sig;
+    }
+    while(act != *p);
+
+    return NO_ENCONTRADO;
+}

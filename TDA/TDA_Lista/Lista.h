@@ -21,4 +21,10 @@ void recorrerLista(const tLista *p, tAccion accion, void *param);
 void mostrarLista(const tLista *p, tMostrar mostrar);
 int eliminarNodo(tLista *p, tNodo *nodoEliminar);
 
+/* Comparador: retorna 1 si se cumple la condición, 0 si no */
+typedef int (*tComparador)(const void *dato, void *criterio);
+
+/* Busca y elimina el primer nodo que cumple la condición */
+int eliminarPorCondicion(tLista *p, tComparador comparador, void *criterio);
+
 #endif

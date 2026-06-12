@@ -12,5 +12,8 @@ int insertarEnListaCircularDAlFinal(tListaCircularD *p, const void *d, unsigned 
 int alterarNodoEnListaCircularD(tListaCircularD* p, unsigned pos, tAccion accion, void* param);
 int recorrerListaCircularD(const tListaCircularD* p, tAccion accion, void* param);
 unsigned contarNodosListaCircularD(const tListaCircularD* p);
+tNodoD* obtenerNodoPorIndiceD(const tListaCircularD* p, unsigned indice);
+void* obtenerInfoPorIndiceD(const tListaCircularD* p, unsigned indice);
+int modificarInfoPorIndiceD(tListaCircularD* p, unsigned indice, const void *datos, unsigned tamDatos);
 
 #endif

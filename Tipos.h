@@ -77,7 +77,7 @@ typedef struct
     int puntos;
     int protegido; /* 0 = no, 1 = sí*/
     int pierdeTurno; /* 0 = no, 1 = sí*/
-    tNodoD *posActual;
+    int posActual;
 }
 Jugador;
 
@@ -85,7 +85,7 @@ typedef struct
 {
     int id;
     int estado; /* si esta eliminado el bandido o no( 1 esta vivo , 0 esta muerto)*/
-    tNodoD *posActual;
+    int posActual;
 }
 Bandido;
 
