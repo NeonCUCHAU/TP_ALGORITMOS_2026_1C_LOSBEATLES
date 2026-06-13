@@ -156,7 +156,6 @@ void generarBandidos(char* tablero, unsigned cantPos, unsigned cantBandidos)
     }
 }
 
-
 int guardarTableroATxt(const char* nombreArchivo, const char* terreno, const char* items, unsigned cantPos)
 {
     unsigned i;
@@ -218,7 +217,6 @@ int cargarTableroATxt(const Config config, const char* nombreArchivo)
     /* generar bandidos */
     generarBandidos(terreno, config.cantidadPosiciones, config.maxBandidos);
 
-
     if(guardarTableroATxt(nombreArchivo, terreno, items, config.cantidadPosiciones) != TODO_OK)
     {
         free(terreno);
@@ -234,9 +232,7 @@ int cargarTableroATxt(const Config config, const char* nombreArchivo)
 int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
 {
     FILE* pf = fopen(nombreArchivo, "rt");
-    char linea[16];
-    char* sep;
-    char ch;
+    char linea[32];
     Casilla c;
 
     if(!pf)
@@ -244,52 +240,40 @@ int cargarTableroDesdeTxt(tListaCircularD* tablero, const char* nombreArchivo)
 
     crearListaCircularD(tablero);
 
-    /* inicio con jugador*/
-    if(fgets(linea, sizeof(linea), pf))
-    {
-        c.terreno  = CELDA_INICIO;
-        c.item     = CELDA_VACIA;
-        c.bandidos = 0;
-        c.jugador  = 1;
-
-        if(insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla)) != TODO_OK)
-        {
-            fclose(pf);
-            return ERR_MEMORIA;
-        }
-    }
-
     while(fgets(linea, sizeof(linea), pf))
     {
-        c.terreno  = CELDA_VACIA;
-        c.item     = CELDA_VACIA;
+        /* se inicializa cada casilla limpia */
+        c.terreno = CELDA_VACIA;
+        c.item = CELDA_VACIA;
         c.bandidos = 0;
-        c.jugador  = 0;
+        c.jugador = 0;
 
-        sep = strchr(linea, '[');
-
-        if(sep != NULL)
+        /* se busca el contenido entre corchetes */
+        char *p = strchr(linea, '[');
+        if(p)
         {
-            ch = *(sep + 1);
+            p++;
+            while(*p != ']' && *p != '\0')
+            {
+                if(*p == CELDA_BANDIDO)
+                    c.bandidos = 1;
+                else if(*p == 'J')
+                    c.jugador = 1;
+                else if(*p == CELDA_PREMIO || *p == CELDA_VIDA)
+                    c.item = *p;
+                else if(*p != ' ')
+                    c.terreno = *p;
 
-            /* procesar el primer caracter(T o B)*/
-            if(ch == CELDA_BANDIDO)
-                c.bandidos = 1;
-            else if(ch == CELDA_VACIA)
-                c.terreno = CELDA_VACIA;
-            else
-                c.terreno = ch;
+                p++;
+            }
+        }
 
-            /* procesar el segundo car�cter si existe*/
-            if(*(sep + 2) == ' ' && *(sep + 3) != ']')
-                c.item = *(sep + 3);
-        }
-        if(insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla)) != TODO_OK)
-        {
-            fclose(pf);
-            return ERR_MEMORIA;
-        }
+        if(c.terreno == CELDA_INICIO || c.terreno == 'I')
+            c.jugador = 1;
+
+        insertarEnListaCircularDAlFinal(tablero, &c, sizeof(Casilla));
     }
+
     fclose(pf);
     return TODO_OK;
 }
@@ -311,132 +295,61 @@ void mostrarTablero(const tListaCircularD* tablero)
     ParamCargaVisual param;
 
     vec = malloc(sizeof(Casilla*) * cantCasillas);
-
-    if(!vec)
-        return;
-
+    if(!vec) return;
     param.vector = vec;
     param.posActual = 0;
-
     recorrerListaCircularD(tablero, cargarVectorVisual, &param);
 
     for(inicioFila = 0; inicioFila < cantCasillas; inicioFila += casillasPorFila)
     {
-        /* -------- Borde superior -------- */
-
-        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
-        {
-            printf("+-------+ ");
-        }
-
+        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++) printf("+-------+ ");
         printf("\n");
-
-        /* -------- Línea item -------- */
 
         for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
         {
             Casilla* c = vec[inicioFila + col];
-
             if(c->item != CELDA_VACIA)
-                printf("|   %c   | ", c->item);
+                printf("| " GREEN "  %c  " RESET " | ", c->item);
             else
                 printf("|       | ");
         }
-
         printf("\n");
-
-        /* -------- Línea terreno-------- */
 
         for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
         {
             Casilla* c = vec[inicioFila + col];
+            char* color = WHITE;
 
-            printf("|   %c   | ", c->terreno);
+            if(c->terreno == CELDA_OASIS || c->terreno == CELDA_TORMENTA)
+                color = CYAN;
+            else if(c->terreno == CELDA_INICIO || c->terreno == CELDA_SALIDA)
+                color = MAGENTA;
+
+            printf("| %s  %c  " RESET " | ", color, c->terreno);
         }
-
         printf("\n");
-
-        /* -------- Línea ocupantes -------- */
 
         for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
         {
             Casilla* c = vec[inicioFila + col];
-
             if(c->jugador)
-                printf("|   J   | ");
-
+                printf("| " YELLOW "  J  " RESET " | ");
             else if(c->bandidos == 1)
-                printf("|   B   | ");
-
+                printf("| " RED "  B  " RESET " | ");
             else if(c->bandidos > 1)
-                printf("|  Bx%d | ", c->bandidos);
-
+                printf("| " RED " Bx%d " RESET " | ", c->bandidos);
             else
                 printf("|       | ");
         }
-
         printf("\n");
-
-        /* -------- Borde inferior -------- */
-
         for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
-        {
             printf("+-------+ ");
-        }
-
-        printf("\n");
-
-        /* -------- Numeros -------- */
-        for(col = 0; col < casillasPorFila && inicioFila + col < cantCasillas; col++)
-        {
-            printf("   %02u     ", inicioFila + col + 1);
-        }
-
         printf("\n\n");
     }
-
     free(vec);
 }
 
-/*
-void mostrarTablero(tListaCircularD ruta)
-{
-    tNodoD *actual;
-    Casilla *c;
-    char contenido[16];
-    int pos = 1, len, i;
 
-    if(!ruta)
-        return;
 
-    actual = ruta;
 
-    printf("\n===== TABLERO =====\n");
-    do
-    {
-        c = (Casilla*) actual->info;
-        len = 0;
 
-        if(c->terreno != CELDA_VACIA)
-            contenido[len++] = c->terreno;
-        if(c->item != CELDA_VACIA)
-            contenido[len++] = c->item;
-        for(i = 0; i < c->bandidos; i++)
-            contenido[len++] = CELDA_BANDIDO;
-        if(c->jugador)
-            contenido[len++] = 'J';
-
-        if(!len)
-            contenido[len++] = CELDA_VACIA;
-        contenido[len] = '\0';
-
-        printf("%02d:[%s]\n", pos, contenido);
-
-        actual = actual->sig;
-        pos++;
-    }
-    while(actual != ruta);
-
-    printf("===================\n");
-}
-*/

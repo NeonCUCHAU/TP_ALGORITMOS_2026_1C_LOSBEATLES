@@ -7,12 +7,20 @@
 #define CONFIG_TXT   1
 #define CARAVANA_TXT 2
 
+
 int main(int argc, char* argv[])
 {
     Config config;
     tArbol arbol;
     registroJugador jugadorActual;
     char nombre[32];
+
+    if (argc <= CARAVANA_TXT)
+    {
+        printf("Error: Faltan argumentos de linea de comandos.\n");
+        printf("Uso correcto: %s <archivo_config> <archivo_caravana>\n", argv[0]);
+        return ERROR;
+    }
 
     srand(time(NULL));
 

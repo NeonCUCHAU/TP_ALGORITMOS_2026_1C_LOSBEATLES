@@ -50,14 +50,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="TDA/TDA_Cola/Cola.h" />
-		<Unit filename="TDA/TDA_Lista/Lista.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="TDA/TDA_Lista/Lista.h" />
 		<Unit filename="TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h" />
+		<Unit filename="TDA/TDA_Lista/Lista.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="TDA/TDA_Lista/Lista.h" />
 		<Unit filename="TDA/TDA_Pila/Pila.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -8,7 +8,6 @@
 #define POSICION_INVALIDA -1
 #define POSICION_VALIDA 0
 
-
 int generarAleatorioRango(int inicio, int fin);
 int LeerConfig(const char* archivo, Config *cfg);
 

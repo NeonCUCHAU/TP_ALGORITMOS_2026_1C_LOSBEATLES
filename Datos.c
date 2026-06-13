@@ -262,16 +262,23 @@ void mostrarRanking(tArbol* arbol)
     registroPartida p;
 
     cantJugadores = contarNodosA(arbol);
+
+    LIMPIAR_PANTALLA;
+    printf(MAGENTA "===========================================\n");
+    printf("              RANKING GENERAL              \n");
+    printf("===========================================\n" RESET);
+
     if(!cantJugadores)
     {
-        printf("\nNo hay jugadores registrados.\n");
+        printf(YELLOW "\n   No hay jugadores registrados aún.\n\n" RESET);
+        printf(MAGENTA "===========================================\n" RESET);
         return;
     }
 
     puntosPorId = calloc(cantJugadores, sizeof(int));
     if(!puntosPorId)
     {
-        printf("Error de memoria.\n");
+        printf(RED "Error de memoria.\n" RESET);
         return;
     }
 
@@ -290,27 +297,30 @@ void mostrarRanking(tArbol* arbol)
     if(!pr.registro)
     {
         free(puntosPorId);
-        printf("Error de memoria.\n");
+        printf(RED "Error de memoria.\n" RESET);
         return;
     }
-
     pr.cantidad = 0;
     pr.puntosPorId = puntosPorId;
 
     recorrerInAccion(arbol, cargarRegistroRanking, &pr);
     ordenarRanking(pr.registro, pr.cantidad);
 
-    printf("\n========== RANKING ==========\n");
-    printf("%-4s %-20s %s\n", "POS", "JUGADOR", "PUNTOS");
-    printf("------------------------------\n");
+    /* --- CABECERA DE LA TABLA --- */
+    printf(CYAN "%-6s %-20s %s\n" RESET, "POS.", "JUGADOR", "PUNTOS");
+    printf(MAGENTA "-------------------------------------------\n" RESET);
 
+    /* --- CUERPO DE LA TABLA --- */
     for(i = 0; i < pr.cantidad; i++)
-        printf("%-4d %-20s %d\n", i + 1, pr.registro[i].nombre, pr.registro[i].puntos);
-
-    printf("==============================\n");
+    {
+        if(i < 3)
+            printf(YELLOW "%-6d %-20s %d\n" RESET, i + 1, pr.registro[i].nombre, pr.registro[i].puntos);
+        else
+            printf("%-6d %-20s %d\n", i + 1, pr.registro[i].nombre, pr.registro[i].puntos);
+    }
+    printf(MAGENTA "===========================================\n" RESET);
 
     free(pr.registro);
     free(puntosPorId);
 }
-
 

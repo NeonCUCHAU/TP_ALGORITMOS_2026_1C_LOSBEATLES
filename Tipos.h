@@ -1,32 +1,12 @@
-/*
-
-main
-│
-├─ leerConfiguracion()
-│
-├─ crearTableroVacio()
-│
-├─ colocarInicio()
-│
-├─ colocarSalida()
-│
-├─ colocarPremios()
-│
-├─ colocarVidasExtra()
-│
-├─ colocarOasis()
-│
-├─ colocarTormentas()
-│
-├─ colocarBandidos()
-│
-├─ crearJugador()
-│
-└─ guardarTableroInicial()
-
-*/
 #ifndef TIPOS_H_INCLUDED
 #define TIPOS_H_INCLUDED
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "TDA/TDA_Lista/Lista.h"
+#include "TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
+#include "TDA/TDA_Cola/Cola.h"
 
 /*Tipos de celdas*/
 #define CELDA_VACIA '.'
@@ -40,16 +20,27 @@ main
 
 #define MAX_MOVIMIENTOS 200
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "TDA/TDA_Lista/Lista.h"
-#include "TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
-#include "TDA/TDA_Cola/Cola.h"
+/*Colores*/
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+#define WHITE   "\033[37m"
 
+#ifdef _WIN32
+#include <windows.h>
+#define LIMPIAR_PANTALLA system("cls")
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+#else
+#define LIMPIAR_PANTALLA system("clear")
+#endif
 
 /* TABLERO */
-
 typedef struct
 {
     int cantidadPosiciones;
@@ -100,11 +91,10 @@ typedef struct
 {
     Casilla** vector;
     unsigned posActual;
-} ParamCargaVisual;
+}
+ParamCargaVisual;
 
 /* DATOS */
-
-/* lo que se guarda en cada nodo del arbol */
 typedef struct
 {
     int id;

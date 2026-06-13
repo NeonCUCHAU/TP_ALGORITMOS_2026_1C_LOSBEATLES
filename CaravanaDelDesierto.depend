@@ -71,3 +71,78 @@
 1781116658 source:/home/maximo/Documentos/maximo/TP-Algoritmos/TDA/TDA_Arbol/arbol.c
 	"arbol.h"
 
+1781368092 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\datos.c
+	"Datos.h"
+
+1781357350 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\datos.h
+	"Tipos.h"
+	"TDA/TDA_Arbol/arbol.h"
+
+1781368372 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tipos.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"TDA/TDA_Lista/Lista.h"
+	"TDA/TDA_ListaCircularDoblementeEnlazada/ListaCircularD.h"
+	"TDA/TDA_Cola/Cola.h"
+	<windows.h>
+
+1781357350 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_lista\lista.h
+	"../Comun/Comun.h"
+
+1781358625 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\comun\comun.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1781357350 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_listacirculardoblementeenlazada\listacirculard.h
+	"../Comun/Comun.h"
+
+1780943602 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_cola\cola.h
+	"../Comun/Comun.h"
+
+1781357350 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_arbol\arbol.h
+	<stdio.h>
+	<stdlib.h>
+	"../Comun/Comun.h"
+
+1781371293 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\main.c
+	<time.h>
+	"Tipos.h"
+	"Tablero.h"
+	"Juego.h"
+	"Datos.h"
+
+1781368112 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tablero.h
+	"Tipos.h"
+
+1781370848 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\juego.h
+	"Tipos.h"
+	"Datos.h"
+	"Tablero.h"
+	<ctype.h>
+
+1781367322 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tablero.c
+	"Tablero.h"
+
+1781357350 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_arbol\arbol.c
+	"arbol.h"
+
+1780943602 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_cola\cola.c
+	"Cola.h"
+
+1781357350 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_lista\lista.c
+	"Lista.h"
+
+1781357350 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_listacirculardoblementeenlazada\listacirculard.c
+	"ListaCircularD.h"
+
+1780943602 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_pila\pila.c
+	"Pila.h"
+
+1780943602 c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\tda\tda_pila\pila.h
+	"../Comun/Comun.h"
+
+1781370912 source:c:\users\pc_casa1\documents\maximo\.unlam\tp-algoritmos\juego.c
+	"Juego.h"
+

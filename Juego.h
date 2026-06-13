@@ -3,52 +3,75 @@
 
 #include "Tipos.h"
 #include "Datos.h"
+#include "Tablero.h"
+#include <ctype.h>
 
-#define TODO_OK 1
-#define CONTINUAR 1              /* Continuar iteración en callback */
-#define DETENER_ITERACION 0      /* Detener iteración en callback */
+#define CONTINUAR 1
+#define DETENER_ITERACION 0
 #define JUGADOR_PROTEGIDO 2
 #define JUGADOR_PIERDEVIDA 3
 
-//Estructura auxiliar para pasar parámetros al callback
+#define SIMBOLO_CORAZON  3
+#define SIMBOLO_DIAMANTE 4
+#define SIMBOLO_TREBOL   5
+#define SIMBOLO_PICA     6
+
 typedef struct
 {
-    tListaCircularD tablero;
-    const Jugador *jugador;
-    tCola *cola;
-} sParamsBandido;
+    char dir;
+    int pasos;
+    int esBandido;
+    int idBandido;
+}
+MovimientoEncolado;
 
-//Estructura auxiliar para CrearBandidos
 typedef struct
 {
     tLista *listaBandidos;
     unsigned *posicion;
     int *idBandido;
-} sParamsCrearBandido;
+}
+sParamsCrearBandido;
 
-//Estructura auxiliar para verificarColisionBandido
 typedef struct
 {
     Jugador *jugador;
-    tLista *listaBandidos;
-    tListaCircularD tablero;
+    tListaCircularD *tablero;
     int posInicio;
-    int resultado;  /* Resultado de la colisión */
-    int bandidoId;  /* ID del bandido en colisión */
-    int bandidoEncontrado;  /* 1 si se encontró colisión, 0 si no */
-} sParamsVerificarColision;
+    int resultado;
+    int bandidoId;
+    int bandidoEncontrado;
+}
+sParamsVerificarColision;
 
-int  menuPrincipal(Config config, const char* archivoTablero, registroJugador* jugadorReg, tArbol* arbol);
+typedef struct
+{
+    tListaCircularD *tablero;
+    const Jugador *jugador;
+    tCola *cola;
+}
+sParamsBandido;
 
-int  lanzarDado();
+typedef struct
+{
+    tListaCircularD *tablero;
+    unsigned cantNodos;
+    int idBuscado;
+    int pasos;
+}
+sParamsAplicarMov;
+
+int menuPrincipal(Config config, const char* archivoTablero, registroJugador* jugadorReg, tArbol* arbol);
+void iniciarNuevaPartida(Config config, const char* archivoTablero, registroJugador* jugadorReg, tArbol* arbol);
+
+int lanzarDado(void);
 void CrearBandidos(tListaCircularD ruta, tLista* listaBandidos);
-int procesarBandidoCallback(const void *dato, void *parametro);
-void encolarMovBandidos(tListaCircularD tablero, tLista listaBandidos, const Jugador *jugador, tCola *cola);
-int verificarColisionBandido(Jugador *jugador, tLista *listaBandidos, tListaCircularD tablero, int posInicio);
+int procesarBandidoCallback(void *dato, void *parametro);
+
+void encolarMovBandidos(tListaCircularD *tablero, tLista *listaBandidos, const Jugador *jugador, tCola *cola);
+int verificarColisionBandido(Jugador *jugador, tLista *listaBandidos, tListaCircularD *tablero, int posInicio);
 
 void mostrarEstado(Jugador *jugador, int turno);
 void mostrarMovimientos(tLista *log);
-void iniciarNuevaPartida(Config config, const char* archivoTablero, registroJugador* jugadorReg, tArbol* arbol);
-
 
 #endif
