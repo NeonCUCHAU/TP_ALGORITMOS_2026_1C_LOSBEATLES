@@ -70,8 +70,13 @@ int procesarBandidoCallback(void *dato, void *parametro);
 
 void encolarMovBandidos(tListaCircularD *tablero, tLista *listaBandidos, const Jugador *jugador, tCola *cola);
 int verificarColisionBandido(Jugador *jugador, tLista *listaBandidos, tListaCircularD *tablero, int posInicio);
+int aplicarMovBandidoCallback(void *dato, void *parametro);
 
 void mostrarEstado(Jugador *jugador, int turno);
 void mostrarMovimientos(tLista *log);
+
+void pedirMovimientoJugador(Jugador* jugador, tCola* cola);
+void procesarColaMovimientos(tCola* cola, Jugador* jugador, tListaCircularD* tablero, tLista* listaBandidos, tLista* logMovimientos, unsigned cantNodos, int* gano);
+void procesarCasillaJugador(Jugador* jugador, Casilla* casilla, int* gano);
 
 #endif

@@ -52,7 +52,7 @@ int menuPrincipal(Config config, const char* archivoTablero, registroJugador* ju
     return TODO_OK;
 }
 
-static int aplicarMovBandidoCallback(void *dato, void *parametro)
+int aplicarMovBandidoCallback(void *dato, void *parametro)
 {
     Bandido *b = (Bandido*) dato;
     sParamsAplicarMov *p = (sParamsAplicarMov*) parametro;
@@ -85,51 +85,34 @@ void iniciarNuevaPartida(Config config, const char* archivoTablero, registroJuga
     tListaCircularD tablero;
     tLista listaBandidos;
     tLista logMovimientos;
-    Jugador jugador;
-    Casilla *casilla;
-    Movimiento mov;
-    registroPartida partida;
-    sParamsAplicarMov paramsAplicar;
-    unsigned cantNodos;
-    int turno, dado, gano;
     tCola cola;
-    MovimientoEncolado movEnc;
-    char dirInput;
+    Jugador jugador;
+    registroPartida partida;
+    unsigned cantNodos;
+    int turno = 1, gano = 0;
 
-    /* 1. Generar tablero */
-    if(cargarTableroATxt(config, archivoTablero) != TODO_OK)
+    /* 1. y 2. Generar y Cargar tablero */
+    if(cargarTableroATxt(config, archivoTablero) != TODO_OK || cargarTableroDesdeTxt(&tablero, archivoTablero) != TODO_OK)
     {
-        printf("Error al generar el tablero.\n");
-        return;
-    }
-
-    /* 2. Cargar tablero en lista circular */
-    if(cargarTableroDesdeTxt(&tablero, archivoTablero) != TODO_OK)
-    {
-        printf("Error al cargar el tablero.\n");
+        printf("Error al generar o cargar el tablero.\n");
         return;
     }
 
     cantNodos = contarNodosListaCircularD(&tablero);
-
     CrearBandidos(tablero, &listaBandidos);
     crearLista(&logMovimientos);
 
-    /* 5. Inicializar jugador */
+    /* 3. Inicializar jugador */
     jugador.vidas       = config.vidasInicio;
     jugador.puntos      = 0;
     jugador.protegido   = 0;
     jugador.pierdeTurno = 0;
     jugador.posActual   = 0;
 
-    turno = 1;
-    gano  = 0;
-
-    /* 6. Loop principal */
+    /* ================= LOOP PRINCIPAL ================= */
     while(jugador.vidas > 0 && !gano)
     {
         LIMPIAR_PANTALLA;
-
         printf(MAGENTA "===========================================\n");
         printf("              TURNO %d - JUGANDO           \n", turno);
         printf("===========================================\n" RESET);
@@ -138,9 +121,8 @@ void iniciarNuevaPartida(Config config, const char* archivoTablero, registroJuga
         mostrarEstado(&jugador, turno);
         crearCola(&cola);
 
-        /* Desgaste del escudo por turno */
-        if(jugador.protegido > 0)
-        {
+        /* Desgaste del escudo */
+        if(jugador.protegido > 0) {
             jugador.protegido--;
             if(jugador.protegido == 0)
                 printf(YELLOW "(!) El efecto protector del oasis se ha desvanecido.\n" RESET);
@@ -148,143 +130,52 @@ void iniciarNuevaPartida(Config config, const char* archivoTablero, registroJuga
                 printf(CYAN "(*) Proteccion activa. Turnos restantes: %d\n" RESET, jugador.protegido);
         }
 
-        if(jugador.pierdeTurno)
-        {
-            printf(YELLOW "Perdiste el turno por la tormenta.\n" RESET);
-            jugador.pierdeTurno = 0;
-            printf(MAGENTA "\n--------------------------------------\n" RESET);
-            pausa();
+        /* Lógica del Turno: Jugador y Bandidos */
+        if(jugador.pierdeTurno) {
+            printf(YELLOW "Perdiste el turno por la tormenta, pero los bandidos acechan...\n" RESET);
+            jugador.pierdeTurno = 0; /* Se limpia el estado, NO encolamos movimiento del jugador */
+        } else {
+            pedirMovimientoJugador(&jugador, &cola);
         }
-        else
-        {
-            dado = lanzarDado();
-            printf(CYAN "Dado: " RESET "%d\n", dado);
-            do
-            {
-                printf(CYAN "Direccion" RESET " (F, B): ");
-                scanf(" %c", &dirInput);
-                while(getchar() != '\n');
-                dirInput = (char)toupper((unsigned char)dirInput);
-            }
-            while(dirInput != 'F' && dirInput != 'B');
 
-            /* Encolar jugador */
-            movEnc.esBandido = 0;
-            movEnc.idBandido = -1;
-            movEnc.dir       = dirInput;
-            movEnc.pasos     = dado;
-            ponerEnCola(&cola, &movEnc, sizeof(MovimientoEncolado));
+        /* Los bandidos SIEMPRE se encolan, sin importar si el jugador perdió el turno */
+        encolarMovBandidos(&tablero, &listaBandidos, &jugador, &cola);
 
-            /* Encolar bandidos */
-            tNodo *nodo = listaBandidos;
-            while(nodo)
-            {
-                Bandido *b = (Bandido*) nodo->info;
-                if(b->estado == 1)
-                {
-                    movEnc.esBandido = 1;
-                    movEnc.idBandido = b->id;
-                    movEnc.dir       = 'f';
-                    movEnc.pasos     = lanzarDado();
-                    ponerEnCola(&cola, &movEnc, sizeof(MovimientoEncolado));
-                }
-                nodo = nodo->sig;
-            }
+        /* Desencolar y aplicar todos los movimientos */
+        procesarColaMovimientos(&cola, &jugador, &tablero, &listaBandidos, &logMovimientos, cantNodos, &gano);
 
-            /* Desencolar y aplicar */
-            while(!colaVacia(&cola))
-            {
-                sacarDeCola(&cola, &movEnc, sizeof(MovimientoEncolado));
-
-                if(!movEnc.esBandido)
-                {
-                    casilla = (Casilla*) obtenerInfoPorIndiceD(&tablero, jugador.posActual);
-                    if(casilla) casilla->jugador = 0;
-
-                    if(movEnc.dir == 'F')
-                    {
-                        unsigned nuevaPos = jugador.posActual + movEnc.pasos;
-                        if(nuevaPos >= cantNodos)
-                            nuevaPos = (cantNodos - 1) - (nuevaPos - (cantNodos - 1));
-                        jugador.posActual = nuevaPos;
-                    }
-                    else
-                    {
-                        if((int)jugador.posActual - movEnc.pasos < 0)
-                            jugador.posActual = 0;
-                        else
-                            jugador.posActual -= movEnc.pasos;
-                    }
-
-                    casilla = (Casilla*) obtenerInfoPorIndiceD(&tablero, jugador.posActual);
-                    if(casilla) casilla->jugador = 1;
-
-                    mov.dir   = movEnc.dir;
-                    mov.pasos = movEnc.pasos;
-                    ponerAlFinal(&logMovimientos, &mov, sizeof(Movimiento));
-
-                    if(casilla)
-                    {
-                        /* --- ITEMS: Premios y Vida --- */
-                        if(casilla->item == CELDA_PREMIO)
-                        {
-                            jugador.puntos += 1;
-                            printf(GREEN "[+] Premio encontrado! +1 punto.\n" RESET);
-                            casilla->item = CELDA_VACIA;
-                        }
-                        else if(casilla->item == CELDA_VIDA)
-                        {
-                            jugador.vidas++;
-                            printf(GREEN "[V] Vida extra recuperada!\n" RESET);
-                            casilla->item = CELDA_VACIA;
-                        }
-
-                        /* --- TERRENO: Eventos del mapa --- */
-                        if(casilla->terreno == CELDA_SALIDA)
-                        {
-                            printf(GREEN "\n======================================\n");
-                            printf("  Llegaste a la salida! HAS GANADO!\n");
-                            printf("======================================\n" RESET);
-                            gano = 1;
-                        }
-                        else if(casilla->terreno == CELDA_OASIS)
-                        {
-                            printf(CYAN "[~] Oasis! Estas protegido durante este y el proximo turno.\n" RESET);
-                            jugador.protegido = 2;
-                        }
-                        else if(casilla->terreno == CELDA_TORMENTA)
-                        {
-                            if(jugador.protegido > 0)
-                                printf(CYAN "[~] Tormenta! Pero el escudo te ha protegido.\n" RESET);
-                            else
-                            {
-                                printf(RED "[!] Tormenta! Perderas el proximo turno.\n" RESET);
-                                jugador.pierdeTurno = 1;
-                            }
-                            jugador.protegido = 0; /* El escudo se consume */
-                        }
-                    }
-
-                    if(!gano && jugador.vidas > 0)
-                        verificarColisionBandido(&jugador, &listaBandidos, &tablero, 0);
-                }
-                else if(!gano && jugador.vidas > 0)
-                {
-                    paramsAplicar.tablero   = &tablero;
-                    paramsAplicar.cantNodos = cantNodos;
-                    paramsAplicar.idBuscado = movEnc.idBandido;
-                    paramsAplicar.pasos     = movEnc.pasos;
-                    recorrerLista(&listaBandidos, aplicarMovBandidoCallback, &paramsAplicar);
-
-                    verificarColisionBandido(&jugador, &listaBandidos, &tablero, 0);
-                }
-            }
-            vaciarCola(&cola);
-            printf(MAGENTA "\n--------------------------------------\n" RESET);
-            pausa();
-        }
+        vaciarCola(&cola);
+        printf(MAGENTA "\n--------------------------------------\n" RESET);
+        pausa();
         turno++;
     }
+    /* ================= FIN LOOP PRINCIPAL ================= */
+
+    /* 4. Mostrar log y guardar partida */
+    mostrarMovimientos(&logMovimientos);
+
+    partida.id          = 0;
+    partida.idJugador   = jugadorReg->id;
+    partida.puntos      = jugador.puntos;
+    partida.movimientos = turno;
+    partida.gano        = gano;
+    guardarPartida(&partida);
+
+    /* 5. Fin de Partida y Limpieza */
+    LIMPIAR_PANTALLA;
+    printf(MAGENTA "==================\n");
+    if(gano)
+        printf(GREEN "    VICTORIA! \n" RESET);
+    else
+        printf(RED "    GAME OVER \n" RESET);
+    printf(MAGENTA "==================\n");
+
+    printf(GREEN "Puntos finales: %d\n", jugador.puntos);
+
+    vaciarLista(&logMovimientos);
+    vaciarLista(&listaBandidos);
+    vaciarListaCircularD(&tablero);
+}
     /* 7. Mostrar log */
     mostrarMovimientos(&logMovimientos);
 
@@ -310,8 +201,6 @@ void iniciarNuevaPartida(Config config, const char* archivoTablero, registroJuga
     vaciarLista(&listaBandidos);
     vaciarListaCircularD(&tablero);
 }
-
-/**/
 
 int lanzarDado(void)
 {
@@ -401,8 +290,6 @@ void encolarMovBandidos(tListaCircularD *tablero, tLista *listaBandidos, const J
     recorrerLista(listaBandidos, procesarBandidoCallback, &params);
 }
 
-/**/
-
 int compararBandidoPorId(const void *dato, void *criterio)
 {
     const Bandido *b = (const Bandido*) dato;
@@ -422,30 +309,30 @@ int verificarColisionBandidoCallback(void *dato, void *parametro)
     if(params->jugador->protegido > 0)
     {
         printf("\nBandido cerca, pero estas PROTEGIDO por el oasis!\n");
-        params->jugador->protegido = 0; /* Al usarlo contra el bandido, se consume el escudo */
+        params->jugador->protegido = 0; /*Al usarlo contra el bandido, se consume el escudo*/
         params->resultado = JUGADOR_PROTEGIDO;
-        params->bandidoEncontrado = 0; /* No eliminamos al bandido */
+        params->bandidoEncontrado = 0; /*No eliminamos al bandido*/
         return DETENER_ITERACION;
     }
 
-    /* Si llega acá, hay colisión real */
+    /*Si llega acá, hay colisión real*/
     params->bandidoEncontrado = 1;
     params->bandidoId = b->id;
     params->jugador->vidas--;
 
-    /* Limpiar bandido de la casilla usando el puntero */
+    /*Limpiar bandido de la casilla usando el puntero*/
     c = (Casilla*) obtenerInfoPorIndiceD(params->tablero, b->posActual);
     if(c)
         c->bandidos = 0;
 
     printf("\nUn bandido te intercepto! Vidas: %d\n", params->jugador->vidas);
 
-    /* Quitar jugador de la casilla actual */
+    /*Quitar jugador de la casilla actual*/
     c = (Casilla*) obtenerInfoPorIndiceD(params->tablero, params->jugador->posActual);
     if(c)
         c->jugador = 0;
 
-    /* Volver al inicio */
+    /*Volver al inicio*/
     params->jugador->posActual = params->posInicio;
     c = (Casilla*) obtenerInfoPorIndiceD(params->tablero, params->posInicio);
     if(c)
@@ -474,7 +361,138 @@ int verificarColisionBandido(Jugador *jugador, tLista *listaBandidos, tListaCirc
     return params.resultado;
 }
 
-/**/
+void pedirMovimientoJugador(Jugador* jugador, tCola* cola)
+{
+    char dirInput;
+    int dado;
+    MovimientoEncolado movEnc;
+
+    dado = lanzarDado();
+
+    printf(CYAN "Dado: " RESET "%d\n", dado);
+
+    do {
+        printf(CYAN "Direccion" RESET " (F, B): ");
+        scanf(" %c", &dirInput);
+        while(getchar() != '\n');
+        dirInput = (char)toupper((unsigned char)dirInput);
+        
+         /* VALIDACIÓN ESTRICTA: Si el dado supera la posición actual, prohibir ir hacia atrás */
+        if (dirInput == 'B' && dado > (int)jugador->posActual) {
+            printf(RED "[!] No puedes retroceder. El dado (%d) supera tu distancia al inicio (%d).Debes ir hacia adelante (F).\n" RESET, dado, jugador->posActual);
+            dirInput = 'X'; /* Forzamos a que el bucle se repita */
+        }
+    } while(dirInput != 'F' && dirInput != 'B');
+
+    movEnc.esBandido = 0;
+    movEnc.idBandido = -1;
+    movEnc.dir       = dirInput;
+    movEnc.pasos     = dado;
+
+    ponerEnCola(cola, &movEnc, sizeof(MovimientoEncolado));
+}
+
+/* 2. PROCESAR INTERACCIONES DEL JUGADOR  */
+/* Maneja la recolección de items y los efectos del terreno */
+void procesarCasillaJugador(Jugador* jugador, Casilla* casilla, int* gano)
+{
+    if (!casilla) return;
+
+    /* ITEMS */
+    if(casilla->item == CELDA_PREMIO) {
+        jugador->puntos += 1;
+        printf(GREEN "[+] Premio encontrado! +1 punto.\n" RESET);
+        casilla->item = CELDA_VACIA;
+    }
+    else if(casilla->item == CELDA_VIDA) {
+        jugador->vidas++;
+        printf(GREEN "[V] Vida extra recuperada!\n" RESET);
+        casilla->item = CELDA_VACIA;
+    }
+
+    /* TERRENO */
+    if(casilla->terreno == CELDA_SALIDA) {
+        printf(GREEN "\n======================================\n");
+        printf("  Llegaste a la salida! HAS GANADO!\n");
+        printf("======================================\n" RESET);
+        *gano = 1;
+    }
+    else if(casilla->terreno == CELDA_OASIS) {
+        printf(CYAN "[~] Oasis! Estas protegido durante este y el proximo turno.\n" RESET);
+        jugador->protegido = 2;
+    }
+    else if(casilla->terreno == CELDA_TORMENTA) {
+        if(jugador->protegido > 0) {
+            printf(CYAN "[~] Tormenta! Pero el escudo te ha protegido.\n" RESET);
+        } else {
+            printf(RED "[!] Tormenta! Perderas el proximo turno.\n" RESET);
+            jugador->pierdeTurno = 1;
+        }
+        jugador->protegido = 0; /* El escudo se consume tras la tormenta */
+    }
+}
+
+/* 3. PROCESAR COLA DE MOVIMIENTOS */
+/* Desencola y ejecuta los movimientos del jugador y los bandidos */
+void procesarColaMovimientos(tCola* cola, Jugador* jugador, tListaCircularD* tablero, tLista* listaBandidos, tLista* logMovimientos, unsigned cantNodos, int* gano)
+{
+    MovimientoEncolado movEnc;
+    Movimiento mov;
+    Casilla* casilla;
+    sParamsAplicarMov paramsAplicar;
+
+    while(!colaVacia(cola))
+    {
+        sacarDeCola(cola, &movEnc, sizeof(MovimientoEncolado));
+
+        if(!movEnc.esBandido)
+        {
+            /* MOVIMIENTO DEL JUGADOR */
+            casilla = (Casilla*) obtenerInfoPorIndiceD(tablero, jugador->posActual);
+            if(casilla)
+                casilla->jugador = 0;
+
+            if(movEnc.dir == 'F') {
+                unsigned nuevaPos = jugador->posActual + movEnc.pasos;
+                if(nuevaPos >= cantNodos)
+                    nuevaPos = (cantNodos - 1) - (nuevaPos - (cantNodos - 1));
+                jugador->posActual = nuevaPos;
+            } else {
+                jugador->posActual -= movEnc.pasos; /* Ya validamos en pedirMovimientoJugador que no sea < 0 */
+            }
+
+            casilla = (Casilla*) obtenerInfoPorIndiceD(tablero, jugador->posActual);
+            if(casilla)
+                casilla->jugador = 1;
+
+            /* Registrar movimiento */
+            mov.dir   = movEnc.dir;
+            mov.pasos = movEnc.pasos;
+            ponerAlFinal(logMovimientos, &mov, sizeof(Movimiento));
+
+            /* Procesar terreno e items */
+            procesarCasillaJugador(jugador, casilla, gano);
+
+            /* Verificar colisión inmediatamente tras moverse */
+            if(!(*gano) && jugador->vidas > 0)
+                verificarColisionBandido(jugador, listaBandidos, tablero, 0);
+        }
+        else if(!(*gano) && jugador->vidas > 0)
+        {
+            /* MOVIMIENTO DE BANDIDO */
+            paramsAplicar.tablero   = tablero;
+            paramsAplicar.cantNodos = cantNodos;
+            paramsAplicar.idBuscado = movEnc.idBandido;
+            paramsAplicar.pasos     = movEnc.pasos;
+            paramsAplicar.dir       = (char)tolower((unsigned char)movEnc.dir);
+
+            recorrerLista(listaBandidos, aplicarMovBandidoCallback, &paramsAplicar);
+
+            /* Verificar colisión tras moverse el bandido */
+            verificarColisionBandido(jugador, listaBandidos, tablero, 0);
+        }
+    }
+}
 
 static void imprimirMovimiento(const void *dato)
 {

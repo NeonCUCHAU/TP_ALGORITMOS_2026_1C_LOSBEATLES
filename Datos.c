@@ -270,7 +270,7 @@ void mostrarRanking(tArbol* arbol)
 
     if(!cantJugadores)
     {
-        printf(YELLOW "\n   No hay jugadores registrados aún.\n\n" RESET);
+        printf(YELLOW "\n   No hay jugadores registrados aï¿½n.\n\n" RESET);
         printf(MAGENTA "===========================================\n" RESET);
         return;
     }
